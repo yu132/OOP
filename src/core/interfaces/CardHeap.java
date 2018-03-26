@@ -1,5 +1,5 @@
 package core.interfaces;
 
-public interface CardHeap {
+public interface CardHeap extends Component{
 
 }

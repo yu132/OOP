@@ -1,7 +1,5 @@
 package core.interfaces;
 
-public interface Box {
-
-	
+public interface Box extends Component{
 	
 }
