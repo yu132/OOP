@@ -1,7 +1,9 @@
 package core.interfaces;
-//temp
+
 public interface CardGame {
 
-	public void creatGame();
+	public abstract void creatGame();
+	
+	
 	
 }
