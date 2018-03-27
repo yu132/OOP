@@ -13,4 +13,8 @@ public interface Card {
 	 */
 	boolean isStackable(Card card);
 	
+	CardNumber getCardNumber();
+	
+	CardType getCardType();
+	
 }
