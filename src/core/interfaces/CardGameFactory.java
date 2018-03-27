@@ -12,4 +12,6 @@ public interface CardGameFactory {
 	 */
 	CardGame getCardGame();
 	
+	
+	CardGame getCardGame(Difficulty  d);
 }
