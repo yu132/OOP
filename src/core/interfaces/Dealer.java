@@ -1,5 +1,9 @@
 package core.interfaces;
 
+/**
+ * 表示左上角的发牌器，负责左上角牌的管理
+ * @author 87663
+ */
 public interface Dealer extends Component{
 
 }

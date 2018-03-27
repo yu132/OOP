@@ -6,12 +6,29 @@ package core.interfaces;
  */
 public interface CardGameManager {
 
+	/**
+	 * 返回一个默认难度的游戏
+	 * @return 纸牌游戏
+	 */
 	public CardGame creatGame();
 	
+	/**
+	 * 返回一个指定难度的游戏
+	 * @param difficulty 游戏难度
+	 * @return 纸牌游戏
+	 */
 	public CardGame creatGame(Difficulty difficulty);
 	
+	/**
+	 * 销毁一个纸牌游戏
+	 * @param cardGame 被销毁的纸牌游戏
+	 */
 	public void deleteGame(CardGame cardGame);
 	
+	/**
+	 * 重新开始一个游戏
+	 * @return 一个新的纸牌游戏
+	 */
 	public CardGame reCreatGame();
 	
 }

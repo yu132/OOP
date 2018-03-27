@@ -1,7 +1,13 @@
 package core.interfaces;
 
+/**
+ * 难度的枚举常量
+ * @author 87663
+ */
 public enum Difficulty {
 
-	EASY,HARD,MASTER;
+	EASY,//简单
+	HARD,//困难
+	MASTER;//大师
 	
 }

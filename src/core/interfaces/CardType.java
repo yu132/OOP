@@ -1,5 +1,8 @@
 package core.interfaces;
 
+/**
+ * 枚举所有的纸牌类型
+ */
 public enum CardType {
 
 	CLUBS,		//梅花,三叶草

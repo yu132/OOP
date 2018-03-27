@@ -34,9 +34,16 @@ public interface CardGame {
 	public boolean moveCards(Components from,Components to,int number);
 	
 	/**
-	 * 撤销上次的操作
+	 * 撤销上一次的移动
+	 * @return 是否撤销成功，如果已经到开始的时候，则不能够撤销
 	 */
-	public void undo();
+	public boolean undo();
+	
+	/**
+	 * 撤销所有的移动，回到纸牌游戏一开始的情况
+	 * @return 是否撤销成功，如果已经到开始的时候，则不能够撤销
+	 */
+	public boolean undoAll();
 	
 	/**
 	 * 是否能够撤销，如果已经到开始的时候，则不能够撤销

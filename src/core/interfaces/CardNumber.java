@@ -1,5 +1,8 @@
 package core.interfaces;
 
+/**
+ * 枚举所有的纸牌数字
+ */
 public enum CardNumber {
 	ACE,	//A
 	TWO,	//2
