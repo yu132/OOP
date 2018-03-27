@@ -12,4 +12,6 @@ public interface Component {
 	
 	boolean getCards(ArrayList<Card> cards);
 	
+	boolean getOpenedCard(ArrayList<Card> cards);
+	
 }
