@@ -6,4 +6,9 @@ package core.interfaces;
  */
 public interface Dealer extends Component{
 
+	/**
+	 * 移动牌
+	 */
+	void nextCards();
+	
 }
