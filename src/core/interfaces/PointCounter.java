@@ -20,4 +20,16 @@ public interface PointCounter {
 	 */
 	int getPoint();
 	
+	/**
+	 * 撤销上次操作所产生的得分
+	 * @return 是否撤销成功
+	 */
+	boolean undo();
+	
+	/**
+	 * 撤销所有的得分
+	 * @return 是否撤销成功
+	 */
+	boolean undoAll();
+	
 }

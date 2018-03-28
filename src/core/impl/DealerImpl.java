@@ -161,6 +161,7 @@ public class DealerImpl implements Dealer{
 
 	@Override
 	public void nextCards() {
+		snapshot.push(getSnapshot());
 		cardIndex+=topCardNumber;
 		int nextNumber=(mode==Mode.THREE_CARD_MODE)?3:1;
 		topCardNumber=nextNumber;

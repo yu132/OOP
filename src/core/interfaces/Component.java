@@ -58,13 +58,13 @@ public interface Component {
 	
 	/**
 	 * 撤销上一次移动
-	 * @return
+	 * @return 是否撤销成功
 	 */
 	boolean undo();
 	
 	/**
 	 * 撤销所有的移动
-	 * @return
+	 * @return 是否撤销成功
 	 */
 	boolean undoAll();
 	
