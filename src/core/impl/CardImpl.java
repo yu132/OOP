@@ -53,6 +53,17 @@ public class CardImpl implements Card{
 		return cards[type][number];
 	}
 	
+	static CardImpl valueOf(String toString){
+		String[] temp=toString.split("_");
+		try{
+			CardType cardType=CardType.valueOf(temp[0]);
+			CardNumber cardNumber=CardNumber.valueOf(temp[1]);
+			return valueOf(cardNumber,cardType);
+		}catch(Exception e){
+			return null;
+		}
+	}
+	
 	@Override
 	public CardNumber getCardNumber() {
 		return CARDNUMBER;
@@ -64,7 +75,7 @@ public class CardImpl implements Card{
 	}
 
 	@Override
-	public boolean isStackable(Card card) {
+	public boolean isStackableInHeap(Card card) {
 		if(CARDNUMBER.ordinal()!=card.getCardNumber().ordinal()+1)
 			return false;
 		switch(CARDTYPE){
@@ -93,4 +104,56 @@ public class CardImpl implements Card{
 		}
 	}
 
+	@Override
+	public boolean isStackableInBox(Card card) {
+		if(CARDNUMBER.ordinal()!=card.getCardNumber().ordinal()-1)
+			return false;
+		
+		switch(CARDTYPE){
+		case CLUBS:
+			switch(card.getCardType()){
+			case CLUBS:
+				return true;
+			case SPADES:
+			case DIAMONDS:
+			case HEARTS:
+				return false;
+			}
+		case SPADES:
+			switch(card.getCardType()){
+			case SPADES:
+				return true;
+			case CLUBS:
+			case DIAMONDS:
+			case HEARTS:
+				return false;
+			}
+		case DIAMONDS:
+			switch(card.getCardType()){
+			case DIAMONDS:
+				return true;
+			case CLUBS:
+			case SPADES:
+			case HEARTS:
+				return false;
+			}
+		case HEARTS:
+			switch(card.getCardType()){
+			case HEARTS:
+				return true;
+			case CLUBS:
+			case SPADES:
+			case DIAMONDS:
+				return false;
+			}
+		default:
+			return false;
+		}
+	}
+
+	@Override
+	public String toString() {
+		return CARDTYPE+"_"+CARDNUMBER;
+	}
+	
 }
