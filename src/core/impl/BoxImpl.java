@@ -110,7 +110,7 @@ public class BoxImpl implements Box{
 
 	@Override
 	public boolean ismovable(int index) {
-		return index==1?true:false;
+		return index==1;
 	}
 
 	@Override

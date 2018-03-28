@@ -1,72 +1,182 @@
 package core.impl;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 
 import core.interfaces.Card;
+import core.interfaces.CardInitializer;
 import core.interfaces.Component;
 import core.interfaces.Dealer;
 import core.interfaces.MoveState;
 
 public class DealerImpl implements Dealer{
+	
+	public enum Mode{
+		ONE_CARD_MODE,THREE_CARD_MODE;
+	}
+	
+	private ArrayList<Card> cardQueueCache=new ArrayList<>();
+	
+	private ArrayList<Card> cardQueue=new ArrayList<>();
+	
+	private int topCardNumber=0;
+	
+	private int cardIndex=0;
+	
+	private int unknowCard=24;
+	
+	private Mode mode;
+	
+	private CardInitializer cardInitializer;
+	
+	private Deque<String> snapshot=new ArrayDeque<>();
+	
+	public DealerImpl(Mode mode, CardInitializer cardInitializer) {
+		super();
+		this.mode = mode;
+		this.cardInitializer = cardInitializer;
+	}
+
+	private String getSnapshot(){
+		StringBuilder sb=new StringBuilder(cardQueue.size()*10);
+		boolean f=true;
+		for(Card c:cardQueue){
+			if(f){
+				f=false;
+				sb.append(c.toString());
+			}else
+				sb.append(" "+c.toString());
+		}
+		return cardIndex+" "+topCardNumber+"#"+sb.toString();
+	}
 
 	@Override
 	public MoveState sentSingleCard(Component c) {
-		// TODO Auto-generated method stub
-		return null;
+		if(topCardNumber==0)
+			return MoveState.ILLEGAL_MOVE;
+		
+		MoveState ms=c.getSingleCard(cardQueue.get(cardIndex+topCardNumber-1));
+		if(ms==MoveState.SUCCESS){
+			snapshot.push(getSnapshot());
+			c.getSingleCard(cardQueue.get(cardIndex+topCardNumber-1));
+			topCardNumber--;
+		}
+		return ms;
 	}
 
 	@Override
 	public MoveState getSingleCard(Card card) {
-		// TODO Auto-generated method stub
-		return null;
+		return MoveState.ILLEGAL_MOVE;
 	}
 
 	@Override
 	public MoveState sentCards(Component c, int number) {
-		// TODO Auto-generated method stub
-		return null;
+		return MoveState.ILLEGAL_MOVE;
 	}
 
 	@Override
 	public MoveState getCards(ArrayList<Card> cards) {
-		// TODO Auto-generated method stub
-		return null;
+		return MoveState.ILLEGAL_MOVE;
 	}
 
 	@Override
 	public ArrayList<String> getOpenedCard() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> temp=new ArrayList<>();
+		boolean f=true;
+		for(int i=0;i<topCardNumber;i++){
+			if(f){
+				f=false;
+				temp.add(cardQueue.get(cardIndex+i).toString());
+			}else
+				temp.add(" "+cardQueue.get(cardIndex+i).toString());
+		}
+		return temp;
 	}
 
 	@Override
 	public ArrayList<String> getAllCard() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> temp=new ArrayList<>();
+		boolean f=true;
+		for(int i=0;i<cardQueue.size();i++){
+			if(f){
+				f=false;
+				temp.add(cardQueue.get(i).toString());
+			}else
+				temp.add(" "+cardQueue.get(i).toString());
+		}
+		boolean ff=true;
+		for(int i=0;i<unknowCard;i++){
+			if(ff){
+				if(!f)
+					temp.add(" null");
+				else
+					temp.add("null");
+			}else
+				temp.add(" null");
+		}
+		return temp;
 	}
 
 	@Override
 	public boolean ismovable(int index) {
-		// TODO Auto-generated method stub
-		return false;
+		return index==1;
 	}
 
 	@Override
 	public boolean undo() {
-		// TODO Auto-generated method stub
-		return false;
+		if(snapshot.isEmpty())
+			return false;
+		
+		String[] temp=snapshot.pop().split(" ");
+		
+		String[] temp2=temp[0].split(" ");
+		
+		cardIndex=Integer.valueOf(temp2[0]);
+		topCardNumber=Integer.valueOf(temp2[1]);
+		
+		cardQueue.clear();
+		
+		String[] temp3=temp[1].split(" ");
+		for(int i=0;i<temp3.length;i++)
+			cardQueue.add(CardImpl.valueOf(temp3[i]));
+		
+		return true;
 	}
 
 	@Override
 	public boolean undoAll() {
-		// TODO Auto-generated method stub
-		return false;
+		if(snapshot.isEmpty())
+			return false;
+		
+		cardQueue=new ArrayList<>(cardQueueCache);
+		
+		cardIndex=0;
+		topCardNumber=0;
+		
+		snapshot.clear();
+		
+		return true;
 	}
 
 	@Override
 	public void nextCards() {
-		// TODO Auto-generated method stub
-		
+		cardIndex+=topCardNumber;
+		int nextNumber=(mode==Mode.THREE_CARD_MODE)?3:1;
+		topCardNumber=nextNumber;
+		if(unknowCard!=0){
+			for(int i=0;i<nextNumber;i++){
+				Card temp=cardInitializer.getCard();
+				cardQueue.add(temp);
+				cardQueueCache.add(temp);
+			}
+			unknowCard-=nextNumber;
+		}
+		if(cardIndex>=cardQueue.size())
+			cardIndex=0;
+		if(cardIndex+topCardNumber>=cardQueue.size()){
+			topCardNumber=cardQueue.size()-cardIndex;
+		}
 	}
 
 }
