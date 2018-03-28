@@ -10,9 +10,9 @@ public interface Card {
 	 * 判断另一张纸牌是否能够堆叠在本张纸牌上
 	 * 该方法适用于牌堆上
 	 * @param card 另一张纸牌
-	 * @return 是否能够堆叠
+	 * @return 是否能够堆叠及状态
 	 */
-	boolean isStackableInHeap(Card card);
+	MoveState isStackableInHeap(Card card);
 	
 	/**
 	 * 判断另一张纸牌是否能够堆叠在本张纸牌上

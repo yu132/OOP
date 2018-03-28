@@ -3,6 +3,7 @@ package core.impl;
 import core.interfaces.Card;
 import core.interfaces.CardNumber;
 import core.interfaces.CardType;
+import core.interfaces.MoveState;
 
 /**
  * 牌类的实现类
@@ -75,32 +76,32 @@ public class CardImpl implements Card{
 	}
 
 	@Override
-	public boolean isStackableInHeap(Card card) {
+	public MoveState isStackableInHeap(Card card) {
 		if(CARDNUMBER.ordinal()!=card.getCardNumber().ordinal()+1)
-			return false;
+			return MoveState.WRONG_NUMBER;
 		switch(CARDTYPE){
 		case CLUBS:
 		case SPADES:
 			switch(card.getCardType()){
 			case CLUBS:
 			case SPADES:
-				return false;
+				return MoveState.WRONG_COLOR;
 			case DIAMONDS:
 			case HEARTS:
-				return true;
+				return MoveState.SUCCESS;
 			}
 		case DIAMONDS:
 		case HEARTS:
 			switch(card.getCardType()){
 			case CLUBS:
 			case SPADES:
-				return true;
+				return MoveState.SUCCESS;
 			case DIAMONDS:
 			case HEARTS:
-				return false;
+				return MoveState.WRONG_COLOR;
 			}
 		default:
-			return false;
+			return MoveState.ILLEGAL_MOVE;
 		}
 	}
 
