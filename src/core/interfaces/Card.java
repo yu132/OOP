@@ -13,8 +13,16 @@ public interface Card {
 	 */
 	boolean isStackable(Card card);
 	
+	/**
+	 * 获得卡牌数字
+	 * @return 卡牌数字
+	 */
 	CardNumber getCardNumber();
 	
+	/**
+	 * 获得卡牌花色
+	 * @return 卡牌花色
+	 */
 	CardType getCardType();
 	
 }

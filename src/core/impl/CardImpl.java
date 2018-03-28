@@ -4,19 +4,46 @@ import core.interfaces.Card;
 import core.interfaces.CardNumber;
 import core.interfaces.CardType;
 
+/**
+ * 牌类的实现类
+ * @author 87663
+ */
 public class CardImpl implements Card{
 	
+	/**
+	 * 静态数组，用于存储所有的卡牌对象
+	 */
 	private static CardImpl[][] cards=new CardImpl[4][13];
 	
+	/**
+	 * 卡牌的数字
+	 */
 	public final CardNumber CARDNUMBER;
+	
+	/**
+	 * 卡牌的种类
+	 */
 	public final CardType CARDTYPE;
 	
+	/**
+	 * 卡牌类的构造器
+	 * 私有的是因为这些卡牌都只需要生成一张就够了
+	 * @param cardNumber
+	 * @param cardType
+	 */
 	private CardImpl(CardNumber cardNumber, CardType cardType) {
 		super();
 		CARDNUMBER = cardNumber;
 		CARDTYPE = cardType;
 	}
 	
+	/**
+	 * 卡牌对象的获取方法，如果没有构造过的，那就构造一个
+	 * 如果构造过了，那就直接从静态数组中取出来返回
+	 * @param cardNumber 卡牌的数字
+	 * @param cardType 卡牌的种类
+	 * @return 一个卡牌对象
+	 */
 	static CardImpl valueOf(CardNumber cardNumber, CardType cardType){
 		int number=cardNumber.ordinal();
 		int type=cardType.ordinal();
