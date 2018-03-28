@@ -72,6 +72,7 @@ public class CardHeapImpl implements CardHeap{
 	public MoveState getSingleCard(Card card) {
 		if(cardStack.isEmpty()){
 			if(card.getCardNumber()==CardNumber.KING){
+				snapshot.push(getSnapshot());
 				cardStack.push(card);
 				totalNumber++;
 				openNew=false;
@@ -81,14 +82,15 @@ public class CardHeapImpl implements CardHeap{
 		}
 		
 		Card topCard=cardStack.peek();
-		if(topCard.isStackableInHeap(card)==MoveState.SUCCESS){
+		MoveState temp=topCard.isStackableInHeap(card);
+		if(temp==MoveState.SUCCESS){
 			snapshot.push(getSnapshot());
 			cardStack.push(card);
 			totalNumber++;
 			openNew=false;
 			return MoveState.SUCCESS;
 		}else
-			return topCard.isStackableInHeap(card);
+			return temp;
 	}
 
 	@Override
@@ -135,7 +137,8 @@ public class CardHeapImpl implements CardHeap{
 		}
 		
 		Card topCard=cardStack.peek();
-		if(topCard.isStackableInHeap(cards.get(0))==MoveState.SUCCESS){
+		MoveState temp=topCard.isStackableInHeap(cards.get(0));
+		if(temp==MoveState.SUCCESS){
 			snapshot.push(getSnapshot());
 			for(int i =0;i<cards.size();i++){
 				cardStack.push(cards.get(i));
@@ -143,7 +146,7 @@ public class CardHeapImpl implements CardHeap{
 			totalNumber+=cards.size();
 			return MoveState.SUCCESS;
 		}else
-			return topCard.isStackableInHeap(cards.get(0));
+			return temp;
 	}
 
 	@Override
@@ -157,8 +160,8 @@ public class CardHeapImpl implements CardHeap{
 				temp.add(c.toString());
 			}else
 				temp.add(" "+c.toString());
-			
 		}
+		
 		return temp;
 	}
 
@@ -176,12 +179,7 @@ public class CardHeapImpl implements CardHeap{
 			
 		}
 		for(int i=0;i<uncoveredCard;i++){
-			if(f){
-				f=false;
-				temp.add("null");
-			}else
-				temp.add(" "+"null");
-			
+			temp.add(" "+"null");
 		}
 		return temp;
 	}
