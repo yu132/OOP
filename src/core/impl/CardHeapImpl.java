@@ -11,14 +11,44 @@ import core.interfaces.Component;
 import core.interfaces.MoveState;
 
 public class CardHeapImpl implements CardHeap{
-	private int uncoveredCard;
+	/**
+	 * 保存未翻开纸牌数目
+	 */
+	private int unopenedCard;
+	
+	/**
+	 * 保存牌堆中纸牌总数
+	 */
 	private int totalNumber;
+	
+	/**
+	 * 记录初始化时纸牌总数
+	 */
 	private int start_totalNumber;
+	
+	/**
+	 * 标记当前操作是否有新的纸牌翻开
+	 */
 	private boolean openNew=false;
-	CardHeapImpl(int number){
-		uncoveredCard = number-1;
+	
+	/**
+	 * 生成纸牌
+	 */
+	CardInitializerImpl generate;
+	
+	/**
+	 * 构造函数
+	 */
+	CardHeapImpl(int number,CardInitializerImpl a){
+		unopenedCard = number-1;
 		start_totalNumber=totalNumber = number;
+		generate = a;
+		Card begin = a.getCard();
+		cardStack.push(begin);
+		openedcard2.push(begin);
+		
 	}
+	
 	/**
 	 * 一个栈，用于存储当前在该牌堆内的卡牌
 	 */
@@ -29,6 +59,15 @@ public class CardHeapImpl implements CardHeap{
 	 */
 	private Deque<String> snapshot=new ArrayDeque<>();
 	
+	/**
+	 * 一个栈，用于存储翻开过的纸牌
+	 */
+	private Deque<Card> openedcard=new ArrayDeque<>();
+	
+	/**
+	 * 一个栈，用于存储翻开过的所有纸牌 
+	 */
+	private Deque<Card> openedcard2=new ArrayDeque<>();
 	
 	/**
 	 * 内部方法，获取当前牌堆内卡牌的快照，用于撤销操作
@@ -47,6 +86,7 @@ public class CardHeapImpl implements CardHeap{
 		return sb.toString();
 	}
 	
+	
 	@Override
 	public MoveState sentSingleCard(Component c) {
 		if(cardStack.isEmpty())
@@ -55,14 +95,30 @@ public class CardHeapImpl implements CardHeap{
 		Card topCard=cardStack.peek();
 		MoveState ms=c.getSingleCard(topCard);
 		if(ms==MoveState.SUCCESS){
-			if(totalNumber-1 == uncoveredCard ){
-				uncoveredCard--;
-				openNew=true;
-			}
+			if(totalNumber-1 == unopenedCard ){
 				
-			totalNumber--;
-			snapshot.push(getSnapshot());
-			cardStack.pop();
+				totalNumber--;
+				snapshot.push(getSnapshot());
+				cardStack.pop();
+				
+				if(unopenedCard>0&&openedcard.isEmpty()){
+					Card temp = generate.getCard();
+					cardStack.push(temp);
+					openedcard2.push(temp);
+					openNew=true;
+				}else if(unopenedCard>0&&!openedcard.isEmpty()){
+					Card temp = openedcard.pop();
+					cardStack.push(temp);
+					openNew=true;
+				}
+				unopenedCard--;
+				
+			}else{
+				totalNumber--;
+				snapshot.push(getSnapshot());
+				cardStack.pop();
+			}
+
 		}
 		
 		return ms;
@@ -96,7 +152,7 @@ public class CardHeapImpl implements CardHeap{
 	@Override
 	public MoveState sentCards(Component c, int number) {
 		
-		if(cardStack.isEmpty()||totalNumber-uncoveredCard<number)
+		if(cardStack.isEmpty()||totalNumber-unopenedCard<number)
 			return MoveState.ILLEGAL_MOVE;
 		ArrayList<Card> li = new ArrayList<>();
 		Card topCard=cardStack.peek();//从小到大，循环完为最大数字牌面
@@ -108,9 +164,18 @@ public class CardHeapImpl implements CardHeap{
 		MoveState ms=c.getSingleCard(topCard);
 		if(ms==MoveState.SUCCESS){
 			totalNumber-=number;
-			if(totalNumber-uncoveredCard==number){
-				uncoveredCard--;
+			if(totalNumber-unopenedCard==number){
+				unopenedCard--;
 				openNew=true;
+				if(openedcard.isEmpty()){
+					Card temp = generate.getCard();
+					cardStack.push(temp);
+					openedcard2.push(temp);
+				}else{
+					Card temp = openedcard.pop();
+					cardStack.push(temp);
+				}
+				
 			}
 		}else{
 			snapshot.pop();
@@ -178,7 +243,7 @@ public class CardHeapImpl implements CardHeap{
 				temp.add(" "+c.toString());
 			
 		}
-		for(int i=0;i<uncoveredCard;i++){
+		for(int i=0;i<unopenedCard;i++){
 			temp.add(" "+"null");
 		}
 		return temp;
@@ -186,7 +251,7 @@ public class CardHeapImpl implements CardHeap{
 
 	@Override
 	public boolean ismovable(int index) {
-		if (index<totalNumber-uncoveredCard){
+		if (index>totalNumber-unopenedCard){
 			return false;
 		}else{
 			return true;
@@ -199,16 +264,19 @@ public class CardHeapImpl implements CardHeap{
 			return false;
 		
 		String last=snapshot.pop();
+		if(openNew){
+			unopenedCard++;
+			openedcard.push(cardStack.peek());
+		}
 		cardStack.clear();
 		String[] cards=last.split(" ");
 		int visiableNumber = cards.length;
-		if(openNew){
-			uncoveredCard++;
-		}
-		totalNumber = uncoveredCard+visiableNumber;
+		
 		for(int i=0;i<cards.length;i++)
 			cardStack.push(CardImpl.valueOf(cards[i]));
 		
+		totalNumber = unopenedCard+visiableNumber;
+
 		return true;
 	}
 
@@ -220,11 +288,17 @@ public class CardHeapImpl implements CardHeap{
 		String last=snapshot.peekLast();
 		cardStack.clear();
 		snapshot.clear();
+		openedcard.clear();
 		String[] cards=last.split(" ");
 		for(int i=0;i<cards.length;i++)
 			cardStack.push(CardImpl.valueOf(cards[i]));
-		uncoveredCard = start_totalNumber-1;
+		unopenedCard = start_totalNumber-1;
 		totalNumber = start_totalNumber;
+		
+		for(Card c:openedcard2){
+			openedcard.push(c);
+		}
+		
 		return true;
 	}
 
