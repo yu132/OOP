@@ -14,9 +14,4 @@ public interface CardGameFactory {
 	
 	
 	CardGame getCardGame(Difficulty  d);
-	
-	CardGame getCardGame(Mode mode);
-	
-	CardGame getCardGame(Difficulty  d,Mode mode);
-	
 }

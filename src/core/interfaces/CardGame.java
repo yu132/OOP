@@ -19,7 +19,7 @@ public interface CardGame {
 		BOX_1,BOX_2,BOX_3,BOX_4,//箱子1-4
 		
 		CARD_HEAP_1,CARD_HEAP_2,CARD_HEAP_3,//牌堆1-7
-		CARD_HEAP_4,CARD_HEAP_5,CARD_HEAP_6,CARD_HEAP_7;
+		CARD_HEAP_4,CARD_HEAP_5,CARD_HEAP_6,CARD_HEAP_7,
 		
 	}
 	
@@ -39,11 +39,6 @@ public interface CardGame {
 	 * @return 是否能够完成这次移动
 	 */
 	public MoveState moveCards(Components from,Components to,int number);
-	
-	/**
-	 * 让发牌器换下一波牌
-	 */
-	public void nextCard();
 	
 	/**
 	 * 获取某个组件内部显示出来的牌
