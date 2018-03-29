@@ -15,7 +15,7 @@ public class CardHeapImpl implements CardHeap{
 	private int totalNumber;
 	private int start_totalNumber;
 	private boolean openNew=false;
-	private CardHeapImpl(int number){
+	CardHeapImpl(int number){
 		uncoveredCard = number-1;
 		start_totalNumber=totalNumber = number;
 	}

@@ -24,20 +24,22 @@ public class PointCounterImpl implements PointCounter{
 	@Override
 	public void addPoint(Component c1, Component c2, MoveState ms) {
 		snapshot.push(point);
-		if(c1 instanceof Dealer){
-			if(c2 instanceof Box){
-				point+=10;
-			}else{
-				point+=5;
-			}
-		}else if(c1 instanceof Box){
-			point-=10;
-		}else if(c1 instanceof CardHeap){
-			if(c2 instanceof Box){
-				point+=10;
-			}else if(c2 instanceof CardHeap){
-				if(((CardHeap) c1).openCardLastRound()){
+		if(ms==MoveState.SUCCESS){
+			if(c1 instanceof Dealer){
+				if(c2 instanceof Box){
+					point+=10;
+				}else{
 					point+=5;
+				}
+			}else if(c1 instanceof Box){
+				point-=10;
+			}else if(c1 instanceof CardHeap){
+				if(c2 instanceof Box){
+					point+=10;
+				}else if(c2 instanceof CardHeap){
+					if(((CardHeap) c1).openCardLastRound()){
+						point+=5;
+					}
 				}
 			}
 		}

@@ -8,13 +8,10 @@ import core.interfaces.Card;
 import core.interfaces.CardInitializer;
 import core.interfaces.Component;
 import core.interfaces.Dealer;
+import core.interfaces.Mode;
 import core.interfaces.MoveState;
 
 public class DealerImpl implements Dealer{
-	
-	public enum Mode{
-		ONE_CARD_MODE,THREE_CARD_MODE;
-	}
 	
 	private ArrayList<Card> cardQueueCache=new ArrayList<>();
 	
