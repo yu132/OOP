@@ -34,13 +34,13 @@ public class CardGameFactoryImpl implements CardGameFactory{
 		Box box_3=new BoxImpl();
 		Box box_4=new BoxImpl();
 
-		CardHeap cardHeap_1=new CardHeapImpl(1);
-		CardHeap cardHeap_2=new CardHeapImpl(2);
-		CardHeap cardHeap_3=new CardHeapImpl(3);
-		CardHeap cardHeap_4=new CardHeapImpl(4);
-		CardHeap cardHeap_5=new CardHeapImpl(5);
-		CardHeap cardHeap_6=new CardHeapImpl(6);
-		CardHeap cardHeap_7=new CardHeapImpl(7);
+		CardHeap cardHeap_1=new CardHeapImpl(1,c);
+		CardHeap cardHeap_2=new CardHeapImpl(2,c);
+		CardHeap cardHeap_3=new CardHeapImpl(3,c);
+		CardHeap cardHeap_4=new CardHeapImpl(4,c);
+		CardHeap cardHeap_5=new CardHeapImpl(5,c);
+		CardHeap cardHeap_6=new CardHeapImpl(6,c);
+		CardHeap cardHeap_7=new CardHeapImpl(7,c);
 
 		Timer timer=new TimerImpl();
 

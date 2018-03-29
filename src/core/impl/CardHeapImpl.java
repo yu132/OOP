@@ -6,6 +6,7 @@ import java.util.Deque;
 
 import core.interfaces.Card;
 import core.interfaces.CardHeap;
+import core.interfaces.CardInitializer;
 import core.interfaces.CardNumber;
 import core.interfaces.Component;
 import core.interfaces.MoveState;
@@ -34,12 +35,12 @@ public class CardHeapImpl implements CardHeap{
 	/**
 	 * 生成纸牌
 	 */
-	CardInitializerImpl generate;
+	CardInitializer generate;
 	
 	/**
 	 * 构造函数
 	 */
-	CardHeapImpl(int number,CardInitializerImpl a){
+	CardHeapImpl(int number,CardInitializer a){
 		unopenedCard = number-1;
 		start_totalNumber=totalNumber = number;
 		generate = a;
