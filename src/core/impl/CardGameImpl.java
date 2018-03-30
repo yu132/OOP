@@ -14,7 +14,7 @@ import core.interfaces.Dealer;
 import core.interfaces.MoveState;
 import core.interfaces.PointCounter;
 import core.interfaces.Timer;
-import core.interfaces.TipsGetter;
+import core.interfaces.CardGameAnalyzer;
 
 public class CardGameImpl implements CardGame{
 	
@@ -55,13 +55,13 @@ public class CardGameImpl implements CardGame{
 	
 	private PointCounter pointCounter;
 	
-	private TipsGetter tipsGetter;
+	private CardGameAnalyzer tipsGetter;
 	
 	private Map<Components,Component> map=new HashMap<>();
 	
 	public CardGameImpl(Dealer dealer, Box box_1, Box box_2, Box box_3, Box box_4, CardHeap cardHeap_1,
 			CardHeap cardHeap_2, CardHeap cardHeap_3, CardHeap cardHeap_4, CardHeap cardHeap_5, CardHeap cardHeap_6,
-			CardHeap cardHeap_7, Timer timer, PointCounter pointCounter, TipsGetter tipsGetter) {
+			CardHeap cardHeap_7, Timer timer, PointCounter pointCounter, CardGameAnalyzer tipsGetter) {
 		super();
 		this.dealer = dealer;
 		this.box_1 = box_1;

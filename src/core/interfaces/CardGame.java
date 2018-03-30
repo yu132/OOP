@@ -12,7 +12,7 @@ public interface CardGame {
 	 * @author 87663
 	 * 枚举所有游戏组件
 	 */
-	public enum Components{
+	public static enum Components{
 		
 		DEALER,//发牌器
 		
