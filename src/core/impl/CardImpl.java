@@ -45,7 +45,7 @@ public class CardImpl implements Card{
 	 * @param cardType 卡牌的种类
 	 * @return 一个卡牌对象
 	 */
-	static CardImpl valueOf(CardNumber cardNumber, CardType cardType){
+	public static CardImpl valueOf(CardNumber cardNumber, CardType cardType){
 		int number=cardNumber.ordinal();
 		int type=cardType.ordinal();
 		if(cards[type][number]==null){

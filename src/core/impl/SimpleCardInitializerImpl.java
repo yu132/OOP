@@ -51,7 +51,7 @@ public class SimpleCardInitializerImpl implements CardInitializer{
 		return null;
 	}
 	
-	public static void main(String[] args) {
+	public static void test(String[] args) {
 		SimpleCardInitializerImpl sci=new SimpleCardInitializerImpl();
 		ArrayList<String> a=new ArrayList<>();
 		for(int i=0;i<52;i++)

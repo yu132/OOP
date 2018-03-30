@@ -40,7 +40,7 @@ public class CardHeapImpl implements CardHeap{
 	/**
 	 * 构造函数
 	 */
-	CardHeapImpl(int number,CardInitializer a){
+	public CardHeapImpl(int number,CardInitializer a){
 		unopenedCard = number-1;
 		start_totalNumber=totalNumber = number;
 		generate = a;
