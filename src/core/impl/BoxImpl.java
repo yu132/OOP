@@ -122,7 +122,7 @@ public class BoxImpl implements Box{
 		cardStack.clear();
 		String[] cards=last.split(" ");
 		for(int i=0;i<cards.length;i++)
-			cardStack.push(CardImpl.valueOf(cards[i]));
+			cardStack.push(CardImpl.valueOf(cards[cards.length-1-i]));
 		
 		return true;
 	}

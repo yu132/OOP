@@ -58,6 +58,7 @@ public class DealerImpl implements Dealer{
 		if(ms==MoveState.SUCCESS){
 			snapshot.push(getSnapshot());
 			c.getSingleCard(cardQueue.get(cardIndex+topCardNumber-1));
+			cardQueue.remove(cardIndex+topCardNumber-1);
 			topCardNumber--;
 		}
 		return ms;
@@ -126,7 +127,7 @@ public class DealerImpl implements Dealer{
 		if(snapshot.isEmpty())
 			return false;
 		
-		String[] temp=snapshot.pop().split(" ");
+		String[] temp=snapshot.pop().split("#");
 		
 		String[] temp2=temp[0].split(" ");
 		
@@ -160,8 +161,8 @@ public class DealerImpl implements Dealer{
 	@Override
 	public void nextCards() {
 		snapshot.push(getSnapshot());
-		cardIndex+=topCardNumber;
 		int nextNumber=(mode==Mode.THREE_CARD_MODE)?3:1;
+		cardIndex+=topCardNumber;
 		topCardNumber=nextNumber;
 		if(unknowCard!=0){
 			for(int i=0;i<nextNumber;i++){
