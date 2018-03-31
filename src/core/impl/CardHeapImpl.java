@@ -43,7 +43,7 @@ public class CardHeapImpl implements CardHeap{
 	/**
 	 * 构造函数
 	 */
-	CardHeapImpl(int number,CardInitializer a,Components thisc){
+	public CardHeapImpl(int number,CardInitializer a,Components thisc){
 		this.thisc=thisc;
 		unopenedCard = number-1;
 		start_totalNumber=totalNumber = number;
