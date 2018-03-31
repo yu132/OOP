@@ -10,6 +10,7 @@ import core.interfaces.Component;
 import core.interfaces.Dealer;
 import core.interfaces.Mode;
 import core.interfaces.MoveState;
+import core.interfaces.CardGame.Components;
 
 public class DealerImpl implements Dealer{
 	
@@ -164,7 +165,7 @@ public class DealerImpl implements Dealer{
 		topCardNumber=nextNumber;
 		if(unknowCard!=0){
 			for(int i=0;i<nextNumber;i++){
-				Card temp=cardInitializer.getCard();
+				Card temp=cardInitializer.getCard(Components.DEALER);
 				cardQueue.add(temp);
 				cardQueueCache.add(temp);
 			}

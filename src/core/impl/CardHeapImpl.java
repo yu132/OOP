@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 
 import core.interfaces.Card;
+import core.interfaces.CardGame.Components;
 import core.interfaces.CardHeap;
 import core.interfaces.CardInitializer;
 import core.interfaces.CardNumber;
@@ -12,6 +13,8 @@ import core.interfaces.Component;
 import core.interfaces.MoveState;
 
 public class CardHeapImpl implements CardHeap{
+	
+	Components thisc;
 	/**
 	 * 保存未翻开纸牌数目
 	 */
@@ -40,11 +43,12 @@ public class CardHeapImpl implements CardHeap{
 	/**
 	 * 构造函数
 	 */
-	CardHeapImpl(int number,CardInitializer a){
+	CardHeapImpl(int number,CardInitializer a,Components thisc){
+		this.thisc=thisc;
 		unopenedCard = number-1;
 		start_totalNumber=totalNumber = number;
 		generate = a;
-		Card begin = a.getCard();
+		Card begin = a.getCard(thisc);
 		cardStack.push(begin);
 		openedcard2.push(begin);
 		
@@ -103,7 +107,7 @@ public class CardHeapImpl implements CardHeap{
 				cardStack.pop();
 				
 				if(unopenedCard>0&&openedcard.isEmpty()){
-					Card temp = generate.getCard();
+					Card temp = generate.getCard(thisc);
 					cardStack.push(temp);
 					openedcard2.push(temp);
 					openNew=true;
@@ -169,7 +173,7 @@ public class CardHeapImpl implements CardHeap{
 				unopenedCard--;
 				openNew=true;
 				if(openedcard.isEmpty()){
-					Card temp = generate.getCard();
+					Card temp = generate.getCard(thisc);
 					cardStack.push(temp);
 					openedcard2.push(temp);
 				}else{

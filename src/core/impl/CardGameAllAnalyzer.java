@@ -116,15 +116,8 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 		}
 	}
 	
-	private Components next;
-	private boolean changeNext;
-	
-	public void nextGetCardComponents(Components c){
-		next=c;
-	}
-	
 	@Override
-	public Card getCard() {
+	public Card getCard(Components c) {
 		// TODO Auto-generated method stub
 		return null;
 	}

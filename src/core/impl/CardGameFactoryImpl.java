@@ -2,6 +2,7 @@ package core.impl;
 
 import core.interfaces.Box;
 import core.interfaces.CardGame;
+import core.interfaces.CardGame.Components;
 import core.interfaces.CardGameFactory;
 import core.interfaces.CardHeap;
 import core.interfaces.CardInitializer;
@@ -34,13 +35,13 @@ public class CardGameFactoryImpl implements CardGameFactory{
 		Box box_3=new BoxImpl();
 		Box box_4=new BoxImpl();
 
-		CardHeap cardHeap_1=new CardHeapImpl(1,c);
-		CardHeap cardHeap_2=new CardHeapImpl(2,c);
-		CardHeap cardHeap_3=new CardHeapImpl(3,c);
-		CardHeap cardHeap_4=new CardHeapImpl(4,c);
-		CardHeap cardHeap_5=new CardHeapImpl(5,c);
-		CardHeap cardHeap_6=new CardHeapImpl(6,c);
-		CardHeap cardHeap_7=new CardHeapImpl(7,c);
+		CardHeap cardHeap_1=new CardHeapImpl(1,c,Components.CARD_HEAP_1);
+		CardHeap cardHeap_2=new CardHeapImpl(2,c,Components.CARD_HEAP_2);
+		CardHeap cardHeap_3=new CardHeapImpl(3,c,Components.CARD_HEAP_3);
+		CardHeap cardHeap_4=new CardHeapImpl(4,c,Components.CARD_HEAP_4);
+		CardHeap cardHeap_5=new CardHeapImpl(5,c,Components.CARD_HEAP_5);
+		CardHeap cardHeap_6=new CardHeapImpl(6,c,Components.CARD_HEAP_6);
+		CardHeap cardHeap_7=new CardHeapImpl(7,c,Components.CARD_HEAP_7);
 
 		Timer timer=new TimerImpl();
 

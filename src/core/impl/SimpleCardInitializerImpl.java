@@ -8,6 +8,7 @@ import core.interfaces.Card;
 import core.interfaces.CardInitializer;
 import core.interfaces.CardNumber;
 import core.interfaces.CardType;
+import core.interfaces.CardGame.Components;
 
 public class SimpleCardInitializerImpl implements CardInitializer{
 
@@ -26,7 +27,7 @@ public class SimpleCardInitializerImpl implements CardInitializer{
 	}
 
 	@Override
-	public Card getCard() {
+	public Card getCard(Components c) {
 		int count=0;
 		for(int i=0;i<4;i++){
 			if(eachNumber[i]!=0)
@@ -51,7 +52,7 @@ public class SimpleCardInitializerImpl implements CardInitializer{
 		return null;
 	}
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		SimpleCardInitializerImpl sci=new SimpleCardInitializerImpl();
 		ArrayList<String> a=new ArrayList<>();
 		for(int i=0;i<52;i++)
@@ -60,5 +61,5 @@ public class SimpleCardInitializerImpl implements CardInitializer{
 		Collections.sort(a);
 		
 		System.out.println(a);
-	}
+	}*/
 }
