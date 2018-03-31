@@ -10,6 +10,7 @@ import core.interfaces.CardInitializer;
 import core.interfaces.CardNumber;
 import core.interfaces.CardType;
 import core.interfaces.MoveState;
+import core.util.RandomUniqueNumber;
 
 public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 
@@ -71,6 +72,8 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 		}
 		
 		static boolean fromHeaptoHeap(ArrayList<Card> CardHeap[],int[] coverNumber,int from,int to,int num){
+			if(CardHeap[from].size()-coverNumber[from]<num)
+				return false;
 			if(CardHeap[to].size()!=coverNumber[to]){
 				if(CardHeap[to].get(CardHeap[to].size()-1)
 					.isStackableInHeap(CardHeap[from].get(CardHeap[from].size()-num-1))
@@ -93,8 +96,64 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			}
 		}
 		
-		static void fromHeapToDealer(){
+		static boolean fromHeapToDealer(ArrayList<Card> CardHeap[],int[] coverNumber,Card[][] tempDealer,int from,int to,int[] togiveNum){
+			if(CardHeap[from].size()==coverNumber[from]){
+				return false;
+			}
+			if(togiveNum[to]==0)
+				return false;
+			Card c=CardHeap[from].remove(CardHeap[from].size()-1);
+			tempDealer[to][3-(togiveNum[to]--)]=c;
+			return true;
+		}
+		
+		static int organizeDealer(Card[][] tempDealer,int[] togiveNum,RandomUniqueNumber ru,int allDealerNum){
 			
+			int temp1=r.nextInt(100)+1;
+			
+			int orgNum;
+			
+			int temp;
+			if(temp1<10)
+				return 0;
+			else if(temp1<70)
+				temp=r.nextInt(5)+1;
+			else if(temp1<90)
+				temp=r.nextInt(5)+3;
+			else
+				temp=r.nextInt(5)+5;
+			
+			if(temp>allDealerNum)
+				orgNum=allDealerNum;
+			else
+				orgNum=temp;
+			allDealerNum-=orgNum;
+			
+			ru.reSet();
+			int[] order=new int[8];
+			for(int i=0;i<7;i++)
+				order[i]=ru.getNum();
+			
+			int inxde1=0;
+			int indexIn=0;
+			
+			Card[][] tempDealerNew=new Card[8][3];
+			for(int i=0;i<7;i++){
+				int next=r.nextInt(orgNum+1>4?4:orgNum+1);
+				togiveNum[i]=next;
+				orgNum-=next;
+				for(int j=0;j<3-next;j++){
+					if(indexIn==3){
+						indexIn=0;
+						inxde1++;
+					}
+					tempDealerNew[i][j]=tempDealer[inxde1][indexIn];
+				}
+			}
+			
+			tempDealer=tempDealerNew;
+			
+			return allDealerNum;
 		}
 		
 		static SolvableCardGame getASolvableCardGame(){
@@ -107,10 +166,15 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 				CardHeap[i]=new ArrayList<>();
 			}
 			
+			int allDealerNum=24;
+			
+			RandomUniqueNumber r=new RandomUniqueNumber(0,7);
+			
 			Card[][] tempDealer=new Card[8][3];
 			
+			int[] togiveNum=new int[8];
 			
-			
+			//TODO 这里继续做 hth htd
 			
 			return null;
 		}
