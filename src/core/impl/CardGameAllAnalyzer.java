@@ -299,6 +299,11 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 							if(need[h2]==0&&togive[h2]==1)
 								finish[h2]=true;
 							
+						/*	for(int ii=0;ii<7;ii++){
+								System.out.println(CardHeap[ii]);
+								System.out.println("COVER:"+coverNumber[ii]+" NEED:"+need[ii]+" TOGIVE:"+togive[ii]+" FINISH:"+finish[ii]);
+							}
+							System.out.println();*/
 							
 							mvlist.add(new MoveOperation(heapMap.get(h1), heapMap.get(h2), num));
 							
@@ -353,6 +358,11 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 								if(need[h2]==0&&togive[h2]==1)
 									finish[h2]=true;
 								
+							/*	for(int ii=0;ii<7;ii++){
+									System.out.println(CardHeap[ii]);
+									System.out.println("COVER:"+coverNumber[ii]+" NEED:"+need[ii]+" TOGIVE:"+togive[ii]+" FINISH:"+finish[ii]);
+								}
+								System.out.println();*/
 								
 								mvlist.add(new MoveOperation(heapMap.get(h1), heapMap.get(h2), CardHeap[h1].size()-coverNumber[h1]-1));
 								
@@ -502,6 +512,7 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			int inxde1=0;
 			int indexIn=0;
 			
+		//	System.err.println("x"+x);
 			
 			for(int i=0;i<groupNext-1;i++){
 				for(int j=0;j<3-togiveNum[i];j++){
@@ -514,6 +525,8 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 				}
 			}
 			
+//			System.err.println("x"+x);
+//			System.out.println("Group"+groupNext+" Card"+nextCardNumber);
 			
 			for(int i=0;i<x;i++){
 				if(indexIn==3){
@@ -558,12 +571,31 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			
 			initHeap(CardHeap);
 			
+		/*	for(int i=0;i<7;i++)
+				System.out.println(CardHeap[i]);
+			System.out.println();*/
 			
 			while(allDealerNum!=0){
 				
 				int[] ret=organizeDealer(tempDealer, togiveNum, allDealerNum);
 				allDealerNum=ret[0];
 				
+			/*	for(int i=0;i<7;i++){
+					System.out.println(CardHeap[i]);
+					System.out.println("COVER"+coverNumber[i]);
+				}
+				System.out.println();
+				
+				for(int ii=0;ii<8;ii++){
+					System.out.print(togiveNum[ii]+" ");
+				}
+				System.out.println();
+				for(int ii=0;ii<8;ii++){
+					for(int jj=0;jj<3;jj++){
+						System.out.print(tempDealer[ii][jj]+" ");
+					}
+				}
+				System.out.println();*/
 				
 				for(int i=7;i>=0;i--){
 					
@@ -592,6 +624,12 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 											
 											mvlist.add(new MoveOperation(heapMap.get(h1), heapMap.get(h2), num));
 											
+										/*	System.out.println(mvlist.get(mvlist.size()-1));
+											for(int ii=0;ii<7;ii++){
+												System.out.println(CardHeap[ii]);
+												System.out.println("COVER"+coverNumber[ii]);
+											}
+											System.out.println();*/
 											
 											break l;
 										}
@@ -612,6 +650,12 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 											
 											mvlist.add(new MoveOperation(heapMap.get(h1), heapMap.get(h2), 1));
 											
+									/*		System.out.println(mvlist.get(mvlist.size()-1));
+											for(int ii=0;ii<7;ii++){
+												System.out.println(CardHeap[ii]);
+												System.out.println("COVER"+coverNumber[ii]);
+											}
+											System.out.println();*/
 											
 											break l;
 										}
@@ -635,6 +679,12 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 											
 											mvlist.add(new MoveOperation(heapMap.get(h1), heapMap.get(h2), num));
 											
+										/*	System.out.println(mvlist.get(mvlist.size()-1));
+											for(int ii=0;ii<7;ii++){
+												System.out.println(CardHeap[ii]);
+												System.out.println("COVER"+coverNumber[ii]);
+											}
+											System.out.println();*/
 											
 											break l;
 										}
@@ -652,6 +702,19 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 								
 								mvlist.add(new MoveOperation(heapMap.get(from), Components.DEALER, 1));
 								
+							/*	System.out.println(mvlist.get(mvlist.size()-1)+" "+i+" "+togiveNum[i]);
+								for(int ii=0;ii<7;ii++){
+									System.out.println(CardHeap[ii]);
+									System.out.println("COVER"+coverNumber[ii]);
+								}
+								for(int ii=0;ii<8;ii++){
+									for(int jj=0;jj<3;jj++){
+										System.out.print(tempDealer[ii][jj]+" ");
+									}
+									System.out.print("# ");
+								}
+								System.out.println();
+								System.out.println();*/
 								
 								
 								break;
@@ -661,6 +724,7 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 				}
 			}
 			
+/*			System.out.println("f");*/
 			
 			ArrayList<Card> Dealer=new ArrayList<>();
 			for(int i=0;i<8;i++){
@@ -672,6 +736,15 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			if(!organizeHeap(CardHeap, coverNumber,mvlist))
 				return null;
 			
+	/*		for(int i=0;i<7;i++)
+				System.out.println(CardHeap[i]);
+			System.out.println();
+			
+			System.out.println(Dealer);
+			
+			
+			
+			System.out.println("f");*/
 			
 			return new SolvableCardGame(CardHeap, Dealer, mvlist);
 		}
