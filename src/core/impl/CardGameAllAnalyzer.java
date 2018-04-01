@@ -1,9 +1,12 @@
 package core.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import core.interfaces.Card;
 import core.interfaces.CardGame.Components;
@@ -37,6 +40,28 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			public String toString() {
 				return ""+getClass();
 			}
+
+			@Override
+			public boolean equals(Object obj) {
+				if(obj instanceof NextOperation)
+					return true;
+				else 
+					return false;
+			}
+		}
+		
+		public static class IndexAndSize implements Comparable<IndexAndSize>{
+			private int index;
+			private int size;
+			public IndexAndSize(int index, int size) {
+				super();
+				this.index = index;
+				this.size = size;
+			}
+			@Override
+			public int compareTo(IndexAndSize o) {
+				return o.size-size;
+			}
 		}
 		
 		public static class MoveOperation implements Operation{ 
@@ -53,18 +78,35 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			public String toString() {
 				return getClass()+ " "+from + " " + to + " " + num   ;
 			}
-			
+			@Override
+			public boolean equals(Object obj) {
+				if(obj instanceof MoveOperation){
+					if( (((MoveOperation) obj).from==from) && (((MoveOperation) obj).to==to) && (((MoveOperation) obj).num==num) ){
+						return true;
+					}
+				}
+				return false;
+			}
 		}
 		
 		private ArrayList<Card>[] CardHeap;
 		private ArrayList<Card> Dealer;
 		private ArrayList<Operation> mvlist;
 		
-		public SolvableCardGame(ArrayList<Card>[] cardHeap, ArrayList<Card> dealer, ArrayList<Operation> mvlist) {
-			super();
-			CardHeap = cardHeap;
-			Dealer = dealer;
-			this.mvlist = mvlist;
+		public void showGame(){
+			Set<Card> all=new HashSet<>();
+			for(int i=1;i<=7;i++){
+				System.out.println("牌堆"+i+":"+CardHeap[i-1]);
+				all.addAll(CardHeap[i-1]);
+			}
+			System.out.println();
+			
+			System.out.println("发牌器:"+Dealer);
+			all.addAll(Dealer);
+			
+			all.add(null);
+			
+			System.out.println("总牌数："+(all.size()-1));
 		}
 		
 		public synchronized ArrayList<Card>[] getCardHeap() {
@@ -78,45 +120,52 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 		public synchronized ArrayList<Operation> getMvlist() {
 			return mvlist;
 		}
-
-		static Random r=new Random();
 		
-		static void initHeap(ArrayList<Card> CardHeap[]){
+		private SolvableCardGame(ArrayList<Card>[] cardHeap, ArrayList<Card> dealer, ArrayList<Operation> mvlist) {
+			super();
+			CardHeap = cardHeap;
+			Dealer = dealer;
+			this.mvlist = mvlist;
+		}
+		
+		private static Random r=new Random();
+		
+		private static void initHeap(ArrayList<Card> CardHeap[]){
 			boolean f=true;
 			for(int i=12;i>=0;i--){
 				if(f){
 					if(r.nextBoolean()){
-						CardHeap[0].add(CardImpl.valueOf(CardNumber.values()[i],CardType.CLUBS));
-						CardHeap[1].add(CardImpl.valueOf(CardNumber.values()[i],CardType.SPADES));
+						CardHeap[3].add(CardImpl.valueOf(CardNumber.values()[i],CardType.CLUBS));
+						CardHeap[4].add(CardImpl.valueOf(CardNumber.values()[i],CardType.SPADES));
 					}else{
-						CardHeap[0].add(CardImpl.valueOf(CardNumber.values()[i],CardType.SPADES));
-						CardHeap[1].add(CardImpl.valueOf(CardNumber.values()[i],CardType.CLUBS));
+						CardHeap[3].add(CardImpl.valueOf(CardNumber.values()[i],CardType.SPADES));
+						CardHeap[4].add(CardImpl.valueOf(CardNumber.values()[i],CardType.CLUBS));
 					}
 					
 					if(r.nextBoolean()){
-						CardHeap[2].add(CardImpl.valueOf(CardNumber.values()[i],CardType.DIAMONDS));
-						CardHeap[3].add(CardImpl.valueOf(CardNumber.values()[i],CardType.HEARTS));
+						CardHeap[5].add(CardImpl.valueOf(CardNumber.values()[i],CardType.DIAMONDS));
+						CardHeap[6].add(CardImpl.valueOf(CardNumber.values()[i],CardType.HEARTS));
 					}else{
-						CardHeap[2].add(CardImpl.valueOf(CardNumber.values()[i],CardType.HEARTS));
-						CardHeap[3].add(CardImpl.valueOf(CardNumber.values()[i],CardType.DIAMONDS));
+						CardHeap[5].add(CardImpl.valueOf(CardNumber.values()[i],CardType.HEARTS));
+						CardHeap[6].add(CardImpl.valueOf(CardNumber.values()[i],CardType.DIAMONDS));
 					}
 					
 					f=false;
 				}else{
 					if(r.nextBoolean()){
-						CardHeap[0].add(CardImpl.valueOf(CardNumber.values()[i],CardType.DIAMONDS));
-						CardHeap[1].add(CardImpl.valueOf(CardNumber.values()[i],CardType.HEARTS));
+						CardHeap[3].add(CardImpl.valueOf(CardNumber.values()[i],CardType.DIAMONDS));
+						CardHeap[4].add(CardImpl.valueOf(CardNumber.values()[i],CardType.HEARTS));
 					}else{
-						CardHeap[1].add(CardImpl.valueOf(CardNumber.values()[i],CardType.HEARTS));
-						CardHeap[0].add(CardImpl.valueOf(CardNumber.values()[i],CardType.DIAMONDS));
+						CardHeap[3].add(CardImpl.valueOf(CardNumber.values()[i],CardType.HEARTS));
+						CardHeap[4].add(CardImpl.valueOf(CardNumber.values()[i],CardType.DIAMONDS));
 					}
 					
 					if(r.nextBoolean()){
-						CardHeap[2].add(CardImpl.valueOf(CardNumber.values()[i],CardType.CLUBS));
-						CardHeap[3].add(CardImpl.valueOf(CardNumber.values()[i],CardType.SPADES));
+						CardHeap[5].add(CardImpl.valueOf(CardNumber.values()[i],CardType.CLUBS));
+						CardHeap[6].add(CardImpl.valueOf(CardNumber.values()[i],CardType.SPADES));
 					}else{
-						CardHeap[2].add(CardImpl.valueOf(CardNumber.values()[i],CardType.SPADES));
-						CardHeap[3].add(CardImpl.valueOf(CardNumber.values()[i],CardType.CLUBS));
+						CardHeap[5].add(CardImpl.valueOf(CardNumber.values()[i],CardType.SPADES));
+						CardHeap[6].add(CardImpl.valueOf(CardNumber.values()[i],CardType.CLUBS));
 					}
 					
 					f=true;
@@ -124,7 +173,7 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			}
 		}
 		
-		static boolean fromHeaptoHeap(ArrayList<Card> CardHeap[],int[] coverNumber,int from,int to,int num){
+		private static boolean fromHeaptoHeap(ArrayList<Card> CardHeap[],int[] coverNumber,int from,int to,int num){
 			if(num<=0)
 				return false;
 			if(CardHeap[from].size()-coverNumber[from]<num)
@@ -144,32 +193,44 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			return true;
 		}
 		
-		static void coverHeapCard(ArrayList<Card> CardHeap[],int[] coverNumber,int x){
+		private static boolean coverHeapCard(ArrayList<Card> CardHeap[],int[] coverNumber,int x){
 			if(coverNumber[x]==x)
-				return;
+				return false;
 			if(CardHeap[x].size()==coverNumber[x]+1){
 				coverNumber[x]++;
+				return true;
 			}
+			return false;
 		}
 		
-		static boolean fromHeapToDealer(ArrayList<Card> CardHeap[],int[] coverNumber,Card[][] tempDealer,int from,int to,int[] togiveNum){
+		private static boolean fromHeapToDealer(ArrayList<Card> CardHeap[],int[] coverNumber,Card[][] tempDealer,int from,int to,int[] togiveNum,int lastGroup){
 			if(CardHeap[from].size()==coverNumber[from]){
 				return false;
 			}
 			if(togiveNum[to]==0)
 				return false;
 			Card c=CardHeap[from].remove(CardHeap[from].size()-1);
-			tempDealer[to][3-(togiveNum[to]--)]=c;
+			if(to!=lastGroup)
+				tempDealer[to][3-(togiveNum[to]--)]=c;
+			else{
+				for(int i=0;i<3;i++){
+					if(tempDealer[to][i]==null){
+						tempDealer[to][i]=c;
+						togiveNum[to]--;
+						break;
+					}
+				}
+			}
 			return true;
 		}
 		
-		static void organizeHeap(ArrayList<Card> CardHeap[],int[] coverNumber,ArrayList<Operation> mvlist){
+		private static boolean organizeHeap(ArrayList<Card> CardHeap[],int[] coverNumber,ArrayList<Operation> mvlist){
 			int[] need=new int[7];
 			int[] togive=new int[7];
 			boolean[] finish=new boolean[7];
 			
 			RandomUniqueNumber ruH1=new RandomUniqueNumber(0,6);
-			RandomUniqueNumber ruH2=new RandomUniqueNumber(0,6);
+			RandomUniqueNumber ruH2=new RandomUniqueNumber(1,6);
 			
 			for(int i=0;i<7;i++){
 				need[i]=i-coverNumber[i];
@@ -178,10 +239,16 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 					finish[i]=true;
 			}
 			
+			boolean kasi=true;
+			
 			while(true){
 				
+				if(finish[0]){
+					finish[0]=finish[1]&&finish[2]&&finish[3]&&finish[4]&&finish[5]&&finish[6];
+				}
+				
 				boolean flag=true;
-				for(int i=0;i<7;i++)
+				for(int i=1;i<7;i++)
 					if(!finish[i]){
 						flag=false;
 						break;
@@ -194,51 +261,119 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 				int h2=0;
 				ruH1.reSet();
 				l:
-				for(int x=0;x<6;x++){
+				for(int x=0;x<7;x++){
+					
+					if(x==0)
+						flagx=false;
+					
 					h1=ruH1.getNum();
 					if(finish[h1])
 						continue;
 					if(togive[h1]<=1)
 						continue;
 					ruH2.reSet();
-					for(int y=0;y<7;y++){
+					for(int y=1;y<7;y++){
 						h2=ruH2.getNum();
 						if(h1==h2)
 							continue;
 						if(finish[h2])
 							continue;
 						int num=flagx?CardHeap[h1].size()-coverNumber[h1]-1:1;
+						
 						if(fromHeaptoHeap(CardHeap, coverNumber, h1, h2,num)){
 							
-							System.out.println("test");
+							if(flagx){
+								coverHeapCard(CardHeap, coverNumber, h1);
+							}else{
+								coverHeapCard(CardHeap, coverNumber, h2);
+							}
 							
+							togive[h1]=CardHeap[h1].size()-coverNumber[h1];
+							need[h1]=h1-coverNumber[h1];
 							
+							togive[h2]=CardHeap[h2].size()-coverNumber[h2];
+							need[h2]=h2-coverNumber[h2];
 							
-							mvlist.add(new MoveOperation(heapMap.get(h1), heapMap.get(h2), num));
-							
-							togive[h1]=h1-coverNumber[h1];
-							need[h2]=CardHeap[h2].size()-coverNumber[h2];
 							if(need[h1]==0&&togive[h1]==1)
 								finish[h1]=true;
 							if(need[h2]==0&&togive[h2]==1)
 								finish[h2]=true;
-							flag=true;
+							
+							
+							mvlist.add(new MoveOperation(heapMap.get(h1), heapMap.get(h2), num));
+							
+							kasi=false;
+							
+							if(mvlist.get(mvlist.size()-1).equals(mvlist.get(mvlist.size()-3)))
+								kasi=true;
+							
 							break l;
 						}
 					}
 				}
-				if(flag){
-					if(flagx){
-						coverHeapCard(CardHeap, coverNumber, h1);
-					}else{
-						coverHeapCard(CardHeap, coverNumber, h2);
+				
+				if(kasi){
+					
+					boolean cover=false;
+					
+					for(int i=1;i<7;i++)
+						if(coverHeapCard(CardHeap, coverNumber, i))
+							cover=true;
+					if(!cover){
+						
+						ArrayList<IndexAndSize> slist=new ArrayList<>();
+						for(int i=1;i<7;i++){
+							slist.add(new IndexAndSize(i, CardHeap[i].size()-coverNumber[i]));
+						}
+						Collections.sort(slist);
+						
+						boolean faliure=true;
+						
+						for(int x=0;x<6;x++){
+							h1=slist.get(x).index;
+							if(finish[h1])
+								continue;
+							if(togive[h1]<=1)
+								continue;
+							h2=0;
+							if(fromHeaptoHeap(CardHeap, coverNumber, h1, h2,CardHeap[h1].size()-coverNumber[h1]-1)){
+								
+								faliure=false;
+								
+								coverHeapCard(CardHeap, coverNumber, h1);
+								
+								togive[h1]=CardHeap[h1].size()-coverNumber[h1];
+								need[h1]=h1-coverNumber[h1];
+								
+								togive[h2]=CardHeap[h2].size()-coverNumber[h2];
+								need[h2]=h2-coverNumber[h2];
+								
+								if(need[h1]==0&&togive[h1]==1)
+									finish[h1]=true;
+								if(need[h2]==0&&togive[h2]==1)
+									finish[h2]=true;
+								
+								
+								mvlist.add(new MoveOperation(heapMap.get(h1), heapMap.get(h2), CardHeap[h1].size()-coverNumber[h1]-1));
+								
+							}
+							
+						}
+						
+						if(faliure)
+							return false;
 					}
+				}else{
+					kasi=true;
 				}
+				
 			}
-			
+			return true;
 		}
 		
-		static int organizeDealer(Card[][] tempDealer,int[] togiveNum,int allDealerNum){
+		private static int[] organizeDealer(Card[][] tempDealer,int[] togiveNum,int allDealerNum){
+			
+			int[] ret=new int[2];
 			
 			int x=0;
 			int group=0;
@@ -247,9 +382,10 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			for(int i=1;i<=8;i++){
 				group=i;
 				for(int j=0;j<3;j++){
-					x++;
 					if(tempDealer[i-1][j]==null)
 						break l;
+					else
+						x++;
 				}
 			}
 			
@@ -275,7 +411,11 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			else{
 				for(int i=0;i<togiveNum.length;i++)
 					togiveNum[i]=0;
-				return allDealerNum;
+				
+				ret[0]=allDealerNum;
+				ret[1]=-1;
+				
+				return ret;
 			}
 			
 			if(group+addGroup>=8)
@@ -283,7 +423,10 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			else
 				groupNext=group+addGroup;
 			
-			int nextCardNumber=(groupNext-2)*3+r.nextInt(4);
+			int nextCardNumber=(groupNext-1)*3+r.nextInt(3)+1;
+			
+			if(nextCardNumber>24)
+				nextCardNumber=24;
 			
 			if(nextCardNumber<=x){
 				if(r.nextBoolean()){
@@ -294,14 +437,31 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 					}else{
 						for(int i=0;i<togiveNum.length;i++)
 							togiveNum[i]=0;
-						return allDealerNum;
+						
+						ret[0]=allDealerNum;
+						ret[1]=-1;
+						
+						return ret;
 					}
 				}
 			}
 			
 			int orgNum=nextCardNumber-x;
 			
-			allDealerNum-=orgNum;
+			int xx=((nextCardNumber-1)/3+1);
+			if(xx<8)
+				groupNext=xx;
+			else
+				groupNext=8;
+			
+			if(allDealerNum-orgNum>=0)
+				allDealerNum-=orgNum;
+			else{
+				orgNum=allDealerNum;
+				allDealerNum=0;
+			}
+			
+			int leave=nextCardNumber-(groupNext-1)*3;
 			
 			if(groupNext-2>=0){
 				RandomUniqueNumber ru=new RandomUniqueNumber(0,groupNext-2);
@@ -309,14 +469,16 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 				while(true){
 					ru.reSet();
 					
-					for(int i=0;i<=groupNext-2;i++){
+					for(int i=0;i<groupNext-1;i++){
 						
 						int g=ru.getNum();
 						
 						int next=r.nextInt(orgNum+1>4?4:orgNum+1);
+						
 						if(next>orgNum){
 							next=orgNum;
 						}
+						
 						if(togiveNum[g]+next>3){
 							orgNum=orgNum+togiveNum[g]-3;
 							togiveNum[g]=3;
@@ -326,102 +488,54 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 						}
 						
 					}
-					if(orgNum==0){
-						break;
+					
+					if(orgNum<=leave){
+						if(r.nextBoolean())
+							break;
 					}
 				}
 			}
-			togiveNum[groupNext-1]=nextCardNumber-(groupNext-1)*3;
+			togiveNum[groupNext-1]=orgNum;
 			
 			Card[][] tempDealerNew=new Card[8][3];
 			
 			int inxde1=0;
 			int indexIn=0;
 			
-			for(int i=0;i<groupNext-2;i++){
+			
+			for(int i=0;i<groupNext-1;i++){
 				for(int j=0;j<3-togiveNum[i];j++){
 					if(indexIn==3){
 						indexIn=0;
 						inxde1++;
 					}
-					tempDealerNew[i][j]=tempDealer[inxde1][indexIn];
+					tempDealerNew[i][j]=tempDealer[inxde1][indexIn++];
+					x--;
 				}
 			}
 			
-			for(int i=0;i<3-togiveNum[groupNext-1];i++){
+			
+			for(int i=0;i<x;i++){
 				if(indexIn==3){
 					indexIn=0;
 					inxde1++;
 				}
-				tempDealerNew[groupNext-1][i]=tempDealer[inxde1][indexIn];
-			}
-			/*int orgNum;
-			
-			int temp;
-			if(temp1<10)
-				return 0;
-			else if(temp1<70)
-				temp=r.nextInt(5)+1;
-			else if(temp1<90)
-				temp=r.nextInt(5)+3;
-			else
-				temp=r.nextInt(5)+5;
-			
-			int range=(x+temp)/3;
-			RandomUniqueNumber ru=new RandomUniqueNumber(0,range);
-			
-			if(temp>allDealerNum)
-				orgNum=allDealerNum;
-			else
-				orgNum=temp;
-			
-			allDealerNum-=orgNum;
-			
-			int[] order=new int[range+1];
-			for(int i=0;i<=range;i++)
-				order[i]=ru.getNum();
-			
-			int inxde1=0;
-			int indexIn=0;
-			
-			Card[][] tempDealerNew=new Card[8][3];
-			
-			while(true){
-				for(int i=0;i<range;i++){
-					int next=r.nextInt(orgNum+1>4?4:orgNum+1);
-					if(next>orgNum){
-						next=orgNum;
-					}
-					if(togiveNum[i]+next>3){
-						orgNum=orgNum+togiveNum[i]-3;
-						togiveNum[i]=3;
-					}else{
-						orgNum-=next;
-						togiveNum[i]+=next;
-					}
-				}
-				if(orgNum==0){
-					break;
-				}
+				tempDealerNew[groupNext-1][i]=tempDealer[inxde1][indexIn++];
 			}
 			
-			//可能会少
-			for(int i=0;i<range;i++){
-				for(int j=0;j<3-togiveNum[i];j++){
-					if(indexIn==3){
-						indexIn=0;
-						inxde1++;
-					}
-					tempDealerNew[i][j]=tempDealer[inxde1][indexIn];
-				}
-			}
+			ret[0]=allDealerNum;
+			ret[1]=groupNext-1;
 			
-			tempDealer=tempDealerNew;*/
+			for(int i=0;i<8;i++)
+				for(int j=0;j<3;j++)
+					tempDealer[i][j]=tempDealerNew[i][j];
 			
-			return allDealerNum;
+			return ret;
+			
+			
 		}
 		
-		static SolvableCardGame getASolvableCardGame(){
+		private static SolvableCardGame getASolvableCardGamePro(){
 			
 			ArrayList<Operation> mvlist=new ArrayList<>();
 			
@@ -435,9 +549,8 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			
 			int allDealerNum=24;
 			
-			
-			RandomUniqueNumber ruH1=new RandomUniqueNumber(0,5);
-			RandomUniqueNumber ruH2=new RandomUniqueNumber(0,5);
+			RandomUniqueNumber ruH1=new RandomUniqueNumber(1,6);
+			RandomUniqueNumber ruH2=new RandomUniqueNumber(1,6);
 			
 			Card[][] tempDealer=new Card[8][3];
 			
@@ -445,31 +558,14 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 			
 			initHeap(CardHeap);
 			
-			for(int i=0;i<7;i++)
-				System.out.println(CardHeap[i]);
-			System.out.println();
 			
 			while(allDealerNum!=0){
-				allDealerNum=organizeDealer(tempDealer, togiveNum, allDealerNum);
 				
-				for(int i=0;i<7;i++){
-					System.out.println(CardHeap[i]);
-					System.out.println("COVER"+coverNumber[i]);
-				}
-				System.out.println();
+				int[] ret=organizeDealer(tempDealer, togiveNum, allDealerNum);
+				allDealerNum=ret[0];
 				
-				for(int ii=0;ii<8;ii++){
-					System.out.print(togiveNum[ii]+" ");
-				}
-				System.out.println();
-				for(int ii=0;ii<8;ii++){
-					for(int jj=0;jj<3;jj++){
-						System.out.print(tempDealer[ii][jj]+" ");
-					}
-				}
-				System.out.println();
 				
-				for(int i=6;i>=0;i--){
+				for(int i=7;i>=0;i--){
 					
 					mvlist.add(new NextOperation());
 					
@@ -482,10 +578,10 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 							if(temp2<40){
 								ruH1.reSet();
 								l:
-								for(int x=0;x<6;x++){
+								for(int x=1;x<=6;x++){
 									int h1=ruH1.getNum();
 									ruH2.reSet();
-									for(int y=0;y<6;y++){
+									for(int y=1;y<=6;y++){
 										int h2=ruH2.getNum();
 										if(h1==h2)
 											continue;
@@ -496,12 +592,6 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 											
 											mvlist.add(new MoveOperation(heapMap.get(h1), heapMap.get(h2), num));
 											
-										/*	System.out.println(mvlist.get(mvlist.size()-1));
-											for(int ii=0;ii<7;ii++){
-												System.out.println(CardHeap[ii]);
-												System.out.println("COVER"+coverNumber[ii]);
-											}
-											System.out.println();*/
 											
 											break l;
 										}
@@ -510,10 +600,10 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 							}else if(temp2<80){
 								ruH1.reSet();
 								l:
-								for(int x=0;x<6;x++){
+								for(int x=1;x<=6;x++){
 									int h1=ruH1.getNum();
 									ruH2.reSet();
-									for(int y=0;y<6;y++){
+									for(int y=1;y<6;y++){
 										int h2=ruH2.getNum();
 										if(h1==h2)
 											continue;
@@ -522,12 +612,6 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 											
 											mvlist.add(new MoveOperation(heapMap.get(h1), heapMap.get(h2), 1));
 											
-									/*		System.out.println(mvlist.get(mvlist.size()-1));
-											for(int ii=0;ii<7;ii++){
-												System.out.println(CardHeap[ii]);
-												System.out.println("COVER"+coverNumber[ii]);
-											}
-											System.out.println();*/
 											
 											break l;
 										}
@@ -537,12 +621,12 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 							}else if(temp2<95){
 								ruH1.reSet();
 								l:
-								for(int x=0;x<6;x++){
+								for(int x=1;x<=6;x++){
 									int h1=ruH1.getNum();
 									ruH2.reSet();
 									if(CardHeap[h1].size()-coverNumber[h1]==0)
 										continue;
-									for(int y=0;y<6;y++){
+									for(int y=1;y<6;y++){
 										int h2=ruH2.getNum();
 										if(h1==h2)
 											continue;
@@ -551,12 +635,6 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 											
 											mvlist.add(new MoveOperation(heapMap.get(h1), heapMap.get(h2), num));
 											
-										/*	System.out.println(mvlist.get(mvlist.size()-1));
-											for(int ii=0;ii<7;ii++){
-												System.out.println(CardHeap[ii]);
-												System.out.println("COVER"+coverNumber[ii]);
-											}
-											System.out.println();*/
 											
 											break l;
 										}
@@ -568,26 +646,12 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 						}
 						
 						ruH1.reSet();
-						for(int x=0;x<6;x++){
+						for(int x=1;x<=6;x++){
 							int from=ruH1.getNum();
-							System.out.println(from);
-							if(fromHeapToDealer(CardHeap, coverNumber, tempDealer, from, i, togiveNum)){
+							if(fromHeapToDealer(CardHeap, coverNumber, tempDealer, from, i, togiveNum,ret[1])){
 								
 								mvlist.add(new MoveOperation(heapMap.get(from), Components.DEALER, 1));
 								
-								System.out.println(mvlist.get(mvlist.size()-1)+" "+i+" "+togiveNum[i]);
-								for(int ii=0;ii<7;ii++){
-									System.out.println(CardHeap[ii]);
-									System.out.println("COVER"+coverNumber[ii]);
-								}
-								for(int ii=0;ii<8;ii++){
-									for(int jj=0;jj<3;jj++){
-										System.out.print(tempDealer[ii][jj]+" ");
-									}
-									System.out.print("# ");
-								}
-								System.out.println();
-								System.out.println();
 								
 								
 								break;
@@ -597,7 +661,6 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 				}
 			}
 			
-			System.out.println("f");
 			
 			ArrayList<Card> Dealer=new ArrayList<>();
 			for(int i=0;i<8;i++){
@@ -606,22 +669,23 @@ public class CardGameAllAnalyzer implements CardGameAnalyzer,CardInitializer{
 				}
 			}
 			
-			for(int i=0;i<7;i++)
-				System.out.println(CardHeap[i]);
+			if(!organizeHeap(CardHeap, coverNumber,mvlist))
+				return null;
 			
-			System.out.println(Dealer);
-			
-			organizeHeap(CardHeap, coverNumber,mvlist);
-			
-			System.out.println("f2");
-			
-		
 			
 			return new SolvableCardGame(CardHeap, Dealer, mvlist);
 		}
 		
+		public static SolvableCardGame getASolvableCardGame(){
+			SolvableCardGame ans=getASolvableCardGamePro();
+			while(ans==null)
+				ans=getASolvableCardGamePro();
+			return ans;
+		}
+		
 		public static void main(String[] args) {
-			SolvableCardGame.getASolvableCardGame();
+			SolvableCardGame scg=SolvableCardGame.getASolvableCardGame();
+			scg.showGame();
 		}
 	}
 	
