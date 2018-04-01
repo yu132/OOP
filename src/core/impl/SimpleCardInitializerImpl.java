@@ -1,14 +1,12 @@
 package core.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 import core.interfaces.Card;
+import core.interfaces.CardGame.Components;
 import core.interfaces.CardInitializer;
 import core.interfaces.CardNumber;
 import core.interfaces.CardType;
-import core.interfaces.CardGame.Components;
 
 public class SimpleCardInitializerImpl implements CardInitializer{
 
