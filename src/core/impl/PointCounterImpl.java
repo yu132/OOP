@@ -36,11 +36,11 @@ public class PointCounterImpl implements PointCounter{
 			}else if(c1 instanceof CardHeap){
 				if(c2 instanceof Box){
 					point+=10;
-				}else if(c2 instanceof CardHeap){
-					if(((CardHeap) c1).openCardLastRound()){
-						point+=5;
-					}
 				}
+				if(((CardHeap) c1).openCardLastRound()){
+					point+=5;
+				}
+				
 			}
 		}
 	}
