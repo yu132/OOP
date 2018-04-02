@@ -15,8 +15,40 @@ public class test_DealerImpl {
 		CardInitializer s=new SimpleCardInitializerImpl();
 		DealerImpl test_dealer = new DealerImpl(Mode.THREE_CARD_MODE,s);
 		
+		test.test_nextCards(test_dealer);
+		test.test_nextCards(test_dealer);
+		test.test_getAllCard(test_dealer);
+		
+		test.test_sentSingleCard(test_dealer, simpleHeap);
+		test.test_getOpenedCard(test_dealer);
+		test.test_getAllCard(test_dealer);
 		
 		test.test_nextCards(test_dealer);
+		test.test_getAllCard(test_dealer);
+		
+		test.test_undo(test_dealer);
+		test.test_getOpenedCard(test_dealer);
+		test.test_getAllCard(test_dealer);
+		
+	/*	test.test_nextCards(test_dealer);
+		test.test_nextCards(test_dealer);
+		test.test_getAllCard(test_dealer);
+		
+		test.test_sentSingleCard(test_dealer, simpleHeap);
+		test.test_sentSingleCard(test_dealer, simpleHeap);
+		test.test_sentSingleCard(test_dealer, simpleHeap);
+		test.test_getOpenedCard(test_dealer);
+		test.test_getAllCard(test_dealer);
+		
+		test.test_nextCards(test_dealer);
+		test.test_getAllCard(test_dealer);
+		
+		test.test_undo(test_dealer);
+		test.test_getOpenedCard(test_dealer);
+		test.test_getAllCard(test_dealer);*/
+		
+		
+		/*test.test_nextCards(test_dealer);
 		
 		test.test_getOpenedCard(test_dealer);
 		test.test_sentSingleCard(test_dealer, simpleHeap);
@@ -37,7 +69,7 @@ public class test_DealerImpl {
 		
 		test.test_nextCards(test_dealer);
 		test.test_getOpenedCard(test_dealer);
-		test.test_getAllCard(test_dealer);
+		test.test_getAllCard(test_dealer);*/
 	}
 	private void test_sentSingleCard(DealerImpl test,Component c){
 		MoveState ms = test.sentSingleCard(c);

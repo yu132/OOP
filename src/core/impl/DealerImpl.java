@@ -60,6 +60,14 @@ public class DealerImpl implements Dealer{
 			c.getSingleCard(cardQueue.get(cardIndex+topCardNumber-1));
 			cardQueue.remove(cardIndex+topCardNumber-1);
 			topCardNumber--;
+			
+			if(topCardNumber==0){
+				if(cardIndex>=1){
+					cardIndex--;
+					topCardNumber=1;
+				}
+			}
+			
 		}
 		return ms;
 	}
@@ -138,6 +146,15 @@ public class DealerImpl implements Dealer{
 		cardIndex=Integer.valueOf(temp2[0]);
 		topCardNumber=Integer.valueOf(temp2[1]);
 		unknowCard=Integer.valueOf(temp2[2]);
+		
+		int num=(mode==Mode.THREE_CARD_MODE)?3:1;
+		
+		if(topCardNumber<num){
+			if(cardIndex>=num-topCardNumber){
+				cardIndex-=num-topCardNumber;
+				topCardNumber=num;
+			}
+		}
 		
 		cardQueue.clear();
 		

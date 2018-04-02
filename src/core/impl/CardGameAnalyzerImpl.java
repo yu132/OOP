@@ -1,8 +1,15 @@
 package core.impl;
 
+import core.interfaces.CardGame;
 import core.interfaces.CardGameAnalyzer;
 
 public class CardGameAnalyzerImpl implements CardGameAnalyzer{
+
+	private final CardGame cardGame;
+	
+	public CardGameAnalyzerImpl(CardGame cardGame) {
+		this.cardGame = cardGame;
+	}
 
 	@Override
 	public String getTips() {
