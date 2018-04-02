@@ -49,6 +49,7 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 		this.fastMode = fastMode;
 	}
 
+	@Override
 	public void analyzerGame(CardGame cardGame){
 		tips=new ArrayList<>();
 		

@@ -101,6 +101,9 @@ public class CardGameImpl implements CardGame{
 		snapshot.add(getSnapshot(from, to));
 		MoveState ms=map.get(from).sentSingleCard(map.get(to));
 		pointCounter.addPoint(map.get(from), map.get(to), ms);
+		
+		tipsGetter.analyzerGame(this);
+		
 		return ms;
 	}
 
@@ -109,6 +112,9 @@ public class CardGameImpl implements CardGame{
 		snapshot.add(getSnapshot(from, to));
 		MoveState ms=map.get(from).sentCards(map.get(to),number);
 		pointCounter.addPoint(map.get(from), map.get(to), ms);
+		
+		tipsGetter.analyzerGame(this);
+		
 		return ms;
 	}
 
@@ -174,20 +180,12 @@ public class CardGameImpl implements CardGame{
 
 	@Override
 	public boolean isGameOver() {
-		// TODO Auto-generated method stub
-		return false;
+		return tipsGetter.isGameOver();
 	}
 
 	@Override
 	public boolean isGameFinish() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean finishGame() {
-		// TODO Auto-generated method stub
-		return false;
+		return tipsGetter.isGameFinish();
 	}
 
 	@Override
@@ -201,8 +199,6 @@ public class CardGameImpl implements CardGame{
 	}
 
 	@Override
-	public void stopGame() {
-		// TODO Auto-generated method stub
-	}
+	public void stopGame() {}
 
 }

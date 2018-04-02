@@ -7,11 +7,9 @@ import core.interfaces.CardGame;
 import core.interfaces.CardGame.Components;
 import core.interfaces.CardGameAnalyzer;
 import core.interfaces.CardInitializer;
-import core.interfaces.Component;
 import core.interfaces.Dealer;
-import core.interfaces.MoveState;
 
-public class CardGameAnalyzerImpl implements CardGameAnalyzer{
+public class ManyStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 	
 	@Override
 	public ArrayList<String> getTips() {
@@ -121,6 +119,12 @@ public class CardGameAnalyzerImpl implements CardGameAnalyzer{
 			
 		};
 		
+		
+	}
+
+	@Override
+	public void analyzerGame(CardGame cardGame) {
+		// TODO Auto-generated method stub
 		
 	}
 

@@ -7,6 +7,8 @@ import java.util.ArrayList;
  * @author 87663
  */
 public interface CardGameAnalyzer {
+	
+	public void analyzerGame(CardGame cardGame);
 
 	ArrayList<String> getTips();
 	

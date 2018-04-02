@@ -96,12 +96,6 @@ public interface CardGame {
 	public boolean isGameFinish();
 	
 	/**
-	 *  在isGameFinish()返回true的时候自动完成牌堆
-	 * @return 是否自动完成了游戏
-	 */
-	public boolean finishGame();
-	
-	/**
 	 * 获取已经开始的时间长度
 	 * @return 时间长度
 	 */

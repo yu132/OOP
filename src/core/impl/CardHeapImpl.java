@@ -9,7 +9,6 @@ import core.interfaces.CardGame.Components;
 import core.interfaces.CardHeap;
 import core.interfaces.CardInitializer;
 import core.interfaces.CardNumber;
-import core.interfaces.CardType;
 import core.interfaces.Component;
 import core.interfaces.MoveState;
 

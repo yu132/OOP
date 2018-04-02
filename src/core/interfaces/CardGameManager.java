@@ -31,4 +31,9 @@ public interface CardGameManager {
 	 */
 	public CardGame reCreatGame();
 	
+	/**
+	 * 重新开始一个指定难度的游戏
+	 * @return 一个新的纸牌游戏
+	 */
+	public CardGame reCreatGame(Difficulty difficulty);
 }
