@@ -46,7 +46,7 @@ public class DealerImpl implements Dealer{
 			}else
 				sb.append(" "+c.toString());
 		}
-		return cardIndex+" "+topCardNumber+"#"+sb.toString();
+		return cardIndex+" "+topCardNumber+" "+unknowCard+"#"+sb.toString();
 	}
 
 	@Override
@@ -137,6 +137,7 @@ public class DealerImpl implements Dealer{
 		
 		cardIndex=Integer.valueOf(temp2[0]);
 		topCardNumber=Integer.valueOf(temp2[1]);
+		unknowCard=Integer.valueOf(temp2[2]);
 		
 		cardQueue.clear();
 		
@@ -160,6 +161,7 @@ public class DealerImpl implements Dealer{
 		
 		cardIndex=0;
 		topCardNumber=0;
+		unknowCard=24;
 		
 		snapshot.clear();
 		
@@ -172,14 +174,21 @@ public class DealerImpl implements Dealer{
 		int nextNumber=(mode==Mode.THREE_CARD_MODE)?3:1;
 		cardIndex+=topCardNumber;
 		topCardNumber=nextNumber;
-		if(unknowCard!=0){
+		if(24-unknowCard>=cardQueueCache.size()){
 			for(int i=0;i<nextNumber;i++){
 				Card temp=cardInitializer.getCard(Components.DEALER);
 				cardQueue.add(temp);
 				cardQueueCache.add(temp);
 			}
-			unknowCard-=nextNumber;
+		}else{
+			for(int i=0;i<nextNumber;i++){
+				Card temp=cardQueueCache.get(24-unknowCard+i);
+				cardQueue.add(temp);
+				cardQueueCache.add(temp);
+			}
 		}
+		unknowCard-=nextNumber;
+		
 		if(cardIndex>=cardQueue.size())
 			cardIndex=0;
 		if(cardIndex+topCardNumber>=cardQueue.size()){
