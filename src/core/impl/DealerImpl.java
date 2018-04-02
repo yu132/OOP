@@ -122,6 +122,10 @@ public class DealerImpl implements Dealer{
 		return index==1;
 	}
 
+	
+//存疑
+	
+	
 	@Override
 	public boolean undo() {
 		if(snapshot.isEmpty())
@@ -142,7 +146,11 @@ public class DealerImpl implements Dealer{
 		
 		return true;
 	}
-
+	
+	
+//存疑
+	
+	
 	@Override
 	public boolean undoAll() {
 		if(snapshot.isEmpty())
