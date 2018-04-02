@@ -90,13 +90,8 @@ public class DealerImpl implements Dealer{
 	@Override
 	public ArrayList<String> getOpenedCard() {
 		ArrayList<String> temp=new ArrayList<>();
-		boolean f=true;
 		for(int i=0;i<topCardNumber;i++){
-			if(f){
-				f=false;
-				temp.add(cardQueue.get(cardIndex+i).toString());
-			}else
-				temp.add(" "+cardQueue.get(cardIndex+i).toString());
+			temp.add(cardQueue.get(cardIndex+i).toString());
 		}
 		return temp;
 	}
@@ -104,23 +99,11 @@ public class DealerImpl implements Dealer{
 	@Override
 	public ArrayList<String> getAllCard() {
 		ArrayList<String> temp=new ArrayList<>();
-		boolean f=true;
 		for(int i=0;i<cardQueue.size();i++){
-			if(f){
-				f=false;
-				temp.add(cardQueue.get(i).toString());
-			}else
-				temp.add(" "+cardQueue.get(i).toString());
+			temp.add(cardQueue.get(i).toString());
 		}
-		boolean ff=true;
 		for(int i=0;i<unknowCard;i++){
-			if(ff){
-				if(!f)
-					temp.add(" null");
-				else
-					temp.add("null");
-			}else
-				temp.add(" null");
+			temp.add("null");
 		}
 		return temp;
 	}

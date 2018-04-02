@@ -236,14 +236,9 @@ public class CardHeapImpl implements CardHeap{
 	@Override
 	public ArrayList<String> getOpenedCard() {
 		ArrayList<String> temp=new ArrayList<>();
-		boolean f=true;
 		
 		for(Card c:cardStack){
-			if(f){
-				f=false;
-				temp.add(c.toString());
-			}else
-				temp.add(" "+c.toString());
+			temp.add(c.toString());
 		}
 		
 		return temp;
@@ -252,18 +247,12 @@ public class CardHeapImpl implements CardHeap{
 	@Override
 	public ArrayList<String> getAllCard() {
 		ArrayList<String> temp=new ArrayList<>();
-		boolean f=true;
-		
 		for(Card c:cardStack){
-			if(f){
-				f=false;
 				temp.add(c.toString());
-			}else
-				temp.add(" "+c.toString());
 			
 		}
 		for(int i=0;i<unopenedCard;i++){
-			temp.add(" "+"null");
+			temp.add("null");
 		}
 		return temp;
 	}
