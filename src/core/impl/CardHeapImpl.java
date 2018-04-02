@@ -9,6 +9,7 @@ import core.interfaces.CardGame.Components;
 import core.interfaces.CardHeap;
 import core.interfaces.CardInitializer;
 import core.interfaces.CardNumber;
+import core.interfaces.CardType;
 import core.interfaces.Component;
 import core.interfaces.MoveState;
 
@@ -49,6 +50,7 @@ public class CardHeapImpl implements CardHeap{
 		start_totalNumber=totalNumber = number;
 		generate = a;
 		Card begin = a.getCard(thisc);
+		//Card begin = CardImpl.valueOf(CardNumber.FIVE,CardType.SPADES);
 		cardStack.push(begin);
 		openedcard2.push(begin);
 		openstate.push(false);
@@ -127,9 +129,9 @@ public class CardHeapImpl implements CardHeap{
 				cardStack.pop();
 				openNew=false;
 			}
-
-		}
 		openstate.push(openNew);
+		}
+		
 		
 		return ms;
 	}
@@ -173,7 +175,7 @@ public class CardHeapImpl implements CardHeap{
 			topCard = cardStack.pop();
 			li.add(0, topCard);
 		}
-		MoveState ms=c.getSingleCard(topCard);
+		MoveState ms=c.getCards(li);
 		if(ms==MoveState.SUCCESS){
 			totalNumber-=number;
 			if(totalNumber==unopenedCard){
@@ -326,7 +328,7 @@ public class CardHeapImpl implements CardHeap{
 	@Override
 	public boolean openCardLastRound() {
 		// TODO Auto-generated method stub
-		return openstate.pop();
+		return openstate.peek();
 	}
 
 }

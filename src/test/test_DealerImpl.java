@@ -16,6 +16,15 @@ public class test_DealerImpl {
 		DealerImpl test_dealer = new DealerImpl(Mode.THREE_CARD_MODE,s);
 		
 		test.test_nextCards(test_dealer);
+		test.test_getAllCard(test_dealer);
+		test.test_nextCards(test_dealer);
+		test.test_getAllCard(test_dealer);
+		test.test_undo(test_dealer);
+		test.test_getAllCard(test_dealer);
+		test.test_nextCards(test_dealer);
+		test.test_getAllCard(test_dealer);
+		
+		/*test.test_nextCards(test_dealer);
 		test.test_nextCards(test_dealer);
 		test.test_getAllCard(test_dealer);
 		
@@ -28,7 +37,7 @@ public class test_DealerImpl {
 		
 		test.test_undo(test_dealer);
 		test.test_getOpenedCard(test_dealer);
-		test.test_getAllCard(test_dealer);
+		test.test_getAllCard(test_dealer);*/
 		
 	/*	test.test_nextCards(test_dealer);
 		test.test_nextCards(test_dealer);
