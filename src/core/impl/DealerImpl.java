@@ -79,6 +79,8 @@ public class DealerImpl implements Dealer{
 
 	@Override
 	public MoveState sentCards(Component c, int number) {
+		if(number==1)
+			return sentSingleCard(c);
 		return MoveState.ILLEGAL_MOVE;
 	}
 

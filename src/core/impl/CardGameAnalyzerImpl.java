@@ -14,11 +14,17 @@ import core.interfaces.MoveState;
 public class CardGameAnalyzerImpl implements CardGameAnalyzer{
 	
 	@Override
-	public String getTips() {
+	public ArrayList<String> getTips() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public String getBestTips() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public boolean isGameFinish() {
 		// TODO Auto-generated method stub
@@ -117,5 +123,5 @@ public class CardGameAnalyzerImpl implements CardGameAnalyzer{
 		
 		
 	}
-	
+
 }

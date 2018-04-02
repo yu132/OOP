@@ -130,7 +130,7 @@ public class CardGameImpl implements CardGame{
 
 	@Override
 	public String getTips() {
-		return tipsGetter.getTips();
+		return tipsGetter.getBestTips();
 	}
 
 	@Override
