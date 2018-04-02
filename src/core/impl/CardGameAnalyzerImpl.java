@@ -2,7 +2,7 @@ package core.impl;
 
 import core.interfaces.CardGameAnalyzer;
 
-public class TipsGetterImpl implements CardGameAnalyzer{
+public class CardGameAnalyzerImpl implements CardGameAnalyzer{
 
 	@Override
 	public String getTips() {
