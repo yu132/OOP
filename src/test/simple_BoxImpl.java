@@ -12,7 +12,7 @@ public class simple_BoxImpl implements Box {
 	@Override
 	public MoveState sentSingleCard(Component c) {
 		// TODO Auto-generated method stub
-		return null;
+		return MoveState.SUCCESS;
 	}
 
 	@Override
@@ -23,14 +23,13 @@ public class simple_BoxImpl implements Box {
 	@Override
 	public MoveState sentCards(Component c, int number) {
 		// TODO Auto-generated method stub
-		return null;
+		return MoveState.SUCCESS;
 	}
 
 	@Override
 	public MoveState getCards(ArrayList<Card> cards) {
 		// TODO Auto-generated method stub
-		return null;
-	}
+		return MoveState.SUCCESS;	}
 
 	@Override
 	public ArrayList<String> getOpenedCard() {
