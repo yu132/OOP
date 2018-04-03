@@ -122,10 +122,12 @@ public class BoxImpl implements Box{
 		
 		String last=snapshot.pop();
 		cardStack.clear();
-		String[] cards=last.split(" ");
-		for(int i=0;i<cards.length;i++)
-			cardStack.push(CardImpl.valueOf(cards[cards.length-1-i]));
 		
+		if(!last.equals("")){
+			String[] cards=last.split(" ");
+			for(int i=0;i<cards.length;i++)
+				cardStack.push(CardImpl.valueOf(cards[cards.length-1-i]));
+		}
 		return true;
 	}
 
