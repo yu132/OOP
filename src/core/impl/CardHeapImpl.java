@@ -114,14 +114,14 @@ public class CardHeapImpl implements CardHeap{
 					Card temp = generate.getCard(thisc);
 					cardStack.push(temp);
 					openedcard2.push(temp);
-					
+					openNew=true;
 				}else if(unopenedCard>0&&!openedcard.isEmpty()){
 					Card temp = openedcard.pop();
 					cardStack.push(temp);
-					
+					openNew=true;
 				}
 				unopenedCard--;
-				openNew=true;
+				
 			}else{
 				totalNumber--;
 				snapshot.push(getSnapshot());
