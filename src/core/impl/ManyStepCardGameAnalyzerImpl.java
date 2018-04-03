@@ -1,39 +1,16 @@
 package core.impl;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 
 import core.interfaces.Card;
 import core.interfaces.CardGame;
 import core.interfaces.CardGame.Components;
 import core.interfaces.CardGameAnalyzer;
 import core.interfaces.CardInitializer;
-import core.interfaces.Dealer;
 
 public class ManyStepCardGameAnalyzerImpl implements CardGameAnalyzer{
-	
-	@Override
-	public ArrayList<String> getTips() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getBestTips() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public boolean isGameFinish() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isGameOver() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	public static class AnalyzerCardInitializer implements CardInitializer{
 
@@ -41,9 +18,14 @@ public class ManyStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 		
 		private ArrayList<Card>[] CardHeap;
 		private ArrayList<Card> Dealer;
-		private int dealerIndex=0;
-		private int[] heapIndexes=new int[7]; 
 		
+		private int dealerIndexReal=0;
+		private int[] heapIndexesReal=new int[7]; 
+		
+		private int dealerIndexAnalyzer=0;
+		private int[] heapIndexesAnalyzer=new int[7]; 
+		
+
 		@SuppressWarnings("unchecked")
 		public AnalyzerCardInitializer(CardInitializer realOne) {
 			super();
@@ -53,9 +35,8 @@ public class ManyStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 				CardHeap[i]=new ArrayList<>();
 			Dealer=new ArrayList<>();
 		}
-
-		@Override
-		public Card getCard(Components c) {
+		
+		private Card getCardx(Components c){
 			Card card=realOne.getCard(c);
 			switch(c){
 			case DEALER:
@@ -85,47 +66,158 @@ public class ManyStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 			}
 			return card;
 		}
+
+		@Override
+		public Card getCard(Components c) {
+			try{
+				switch(c){
+				case DEALER:
+					return Dealer.get(dealerIndexReal++);
+				case CARD_HEAP_1:
+					return CardHeap[0].get(heapIndexesReal[0]++);
+				case CARD_HEAP_2:
+					return CardHeap[1].get(heapIndexesReal[1]++);
+				case CARD_HEAP_3:
+					return CardHeap[2].get(heapIndexesReal[2]++);
+				case CARD_HEAP_4:
+					return CardHeap[3].get(heapIndexesReal[3]++);
+				case CARD_HEAP_5:
+					return CardHeap[4].get(heapIndexesReal[4]++);
+				case CARD_HEAP_6:
+					return CardHeap[5].get(heapIndexesReal[5]++);
+				case CARD_HEAP_7:
+					return CardHeap[6].get(heapIndexesReal[6]++);
+				default:
+					return null;
+				}
+			}catch (Exception e) {
+				return getCardx(c);
+			}
+		}
 		
 		public Card getAnalyzerCard(Components c){
 			try{
 				switch(c){
 				case DEALER:
-					return Dealer.get(dealerIndex++);
+					return Dealer.get(dealerIndexAnalyzer++);
 				case CARD_HEAP_1:
-					return CardHeap[0].get(heapIndexes[0]++);
+					return CardHeap[0].get(heapIndexesAnalyzer[0]++);
 				case CARD_HEAP_2:
-					return CardHeap[1].get(heapIndexes[1]++);
+					return CardHeap[1].get(heapIndexesAnalyzer[1]++);
 				case CARD_HEAP_3:
-					return CardHeap[2].get(heapIndexes[2]++);
+					return CardHeap[2].get(heapIndexesAnalyzer[2]++);
 				case CARD_HEAP_4:
-					return CardHeap[3].get(heapIndexes[3]++);
+					return CardHeap[3].get(heapIndexesAnalyzer[3]++);
 				case CARD_HEAP_5:
-					return CardHeap[4].get(heapIndexes[4]++);
+					return CardHeap[4].get(heapIndexesAnalyzer[4]++);
 				case CARD_HEAP_6:
-					return CardHeap[5].get(heapIndexes[5]++);
+					return CardHeap[5].get(heapIndexesAnalyzer[5]++);
 				case CARD_HEAP_7:
-					return CardHeap[6].get(heapIndexes[6]++);
+					return CardHeap[6].get(heapIndexesAnalyzer[6]++);
 				default:
 					return null;
 				}
 			}catch (Exception e) {
-				return null;
+				return getCardx(c);
 			}
 		}
 	}
-
-	public static class AnalyzerCardGame{
-		Dealer analyzerDealer=new DealerImpl(null, null){
+	
+	private static class DfsTreeNode{
+		private String lastMove;
+		private DfsTreeNode lastDfsTreeNode;
+		
+		private ArrayList<String> nextMoveRoad;
+		private boolean finishedGame;
+		
+		private ArrayList<DfsTreeNode> nextMove;
+		public DfsTreeNode() {
+			this.nextMove = new ArrayList<>();
+		}
+	}
+	
+	final private AnalyzerCardInitializer cardInitializer;
+	
+	final private SingleStepCardGameAnalyzerImpl singleStepCardGameAnalyzer=new SingleStepCardGameAnalyzerImpl(false);
+	
+	final private CardGame analyzerCopy;
+	
+	final private Deque<String> moveStack=new ArrayDeque<>();
+	
+	final private DfsTreeNode root=new DfsTreeNode();
+	
+	public boolean dfs(DfsTreeNode dfsTreeNode){
+		singleStepCardGameAnalyzer.analyzerGame(analyzerCopy);
+		if(singleStepCardGameAnalyzer.isGameFinish())
+			return true;
+		dfsTreeNode.nextMoveRoad=singleStepCardGameAnalyzer.getTips();
+		dfsTreeNode.finishedGame=singleStepCardGameAnalyzer.isGameFinish();
+		for(String s:dfsTreeNode.nextMoveRoad){
+			String[] sp=s.split(" ");
 			
-		};
-		
-		
+			DfsTreeNode dfs=new DfsTreeNode();
+			dfs.lastMove=s;
+			dfsTreeNode.nextMove.add(dfs);
+			dfs.lastDfsTreeNode=dfsTreeNode;
+			
+			analyzerCopy.moveCards(Components.valueOf(sp[0]), Components.valueOf(sp[1]), Integer.valueOf(sp[2]));
+			moveStack.push(s);
+			if(dfs(dfs))
+				return true;
+			moveStack.pop();
+			analyzerCopy.undo();
+		}
+		return false;
+	}
+	
+	public boolean searchNode(ArrayList<String> road){
+		//将节点指向移动到指定位置
+		return false;
+	}
+	
+	private Runnable runnable=new Runnable() {
+		@Override
+		public void run() {
+			root.lastMove=null;
+			root.lastDfsTreeNode=null;
+			dfs(root);
+		}
+	};
+	
+	public ManyStepCardGameAnalyzerImpl(CardInitializer cardInitializer,CardGame analyzerCopy) {
+		this.cardInitializer=new AnalyzerCardInitializer(cardInitializer);
+		this.analyzerCopy=analyzerCopy;
+	}
+
+	public CardInitializer getCardInitializer(){
+		return cardInitializer;
 	}
 
 	@Override
-	public void analyzerGame(CardGame cardGame) {
+	public void analyzerGame(CardGame cardGame) {}
+	
+	@Override
+	public ArrayList<String> getTips() {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+
+	@Override
+	public String getBestTips() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public boolean isGameFinish() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isGameOver() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

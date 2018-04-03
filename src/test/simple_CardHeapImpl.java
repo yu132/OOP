@@ -28,8 +28,7 @@ public class simple_CardHeapImpl implements CardHeap{
 
 	@Override
 	public MoveState getCards(ArrayList<Card> cards) {
-		// TODO Auto-generated method stub
-		return null;
+		return MoveState.SUCCESS;
 	}
 
 	@Override

@@ -56,7 +56,7 @@ public class CardGameFactoryImpl implements CardGameFactory{
 	
 			PointCounter pointCounter=new PointCounterImpl();
 			
-			CardGameAnalyzer cardGameAnalyzer=new SingleStepCardGameAnalyzerImpl(true);
+			CardGameAnalyzer cardGameAnalyzer=new SingleStepCardGameAnalyzerImpl(false);
 	
 			return new CardGameImpl(dealer, box_1, box_2, box_3, box_4, cardHeap_1, cardHeap_2, cardHeap_3, cardHeap_4, cardHeap_5, cardHeap_6, cardHeap_7, timer, pointCounter, cardGameAnalyzer);
 		}else{//MASTER

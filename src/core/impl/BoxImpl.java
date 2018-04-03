@@ -62,6 +62,7 @@ public class BoxImpl implements Box{
 	public MoveState getSingleCard(Card card) {
 		if(cardStack.isEmpty()){
 			if(card.getCardNumber()==CardNumber.ACE){
+				snapshot.push(getSnapshot());
 				cardStack.push(card);
 				return MoveState.SUCCESS;
 			}else
@@ -90,7 +91,8 @@ public class BoxImpl implements Box{
 	@Override
 	public ArrayList<String> getOpenedCard() {
 		ArrayList<String> temp=new ArrayList<>();
-		temp.add(cardStack.peek().toString());
+		if(!cardStack.isEmpty())
+			temp.add(cardStack.peek().toString());
 		return temp;
 	}
 

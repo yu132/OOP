@@ -71,6 +71,9 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 			for(int j=1;j<=4;j++){
 				if(cardGame.moveCards(map.get(i), boxmap.get(j), 1)==MoveState.SUCCESS){
 					tips.add(map.get(i)+" "+boxmap.get(j)+" "+1);
+					
+					System.out.println("Analyzer:"+map.get(i)+" "+boxmap.get(j)+" "+1);
+					
 					cardGame.undo();
 					if(fastMode){
 						return;
@@ -85,7 +88,10 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 					if(i==j)
 						continue;
 					if(cardGame.moveCards(map.get(i), map.get(j), num)==MoveState.SUCCESS){
-						tips.add(map.get(i)+" "+map.get(i)+" "+num);
+						tips.add(map.get(i)+" "+map.get(j)+" "+num);
+						
+						System.out.println("Analyzer:"+map.get(i)+" "+map.get(j)+" "+num);
+						
 						cardGame.undo();
 						if(fastMode){
 							return;
@@ -99,6 +105,9 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 			for(int j=1;j<=7;j++){
 				if(cardGame.moveCards(Components.DEALER, map.get(j), 1)==MoveState.SUCCESS){
 					tips.add(Components.DEALER+" "+map.get(j)+" "+1);
+					
+					System.out.println("Analyzer:"+Components.DEALER+" "+map.get(j)+" "+1);
+					
 					cardGame.undo();
 					if(fastMode){
 						while(i--!=0)
@@ -110,6 +119,9 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 			for(int j=1;j<=4;j++){
 				if(cardGame.moveCards(Components.DEALER, boxmap.get(j), 1)==MoveState.SUCCESS){
 					tips.add(Components.DEALER+" "+boxmap.get(j)+" "+1);
+					
+					System.out.println("Analyzer:"+Components.DEALER+" "+boxmap.get(j)+" "+1);
+					
 					cardGame.undo();
 					if(fastMode){
 						while(i--!=0)

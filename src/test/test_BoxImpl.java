@@ -32,17 +32,20 @@ public  class test_BoxImpl {
 		
 		
 		test.test_getSingleCard(test_box, card1);
-		test.test_getSingleCard(test_box, card2);
+	/*	test.test_getSingleCard(test_box, card2);
 		test.test_getSingleCard(test_box, card3);
 		test.test_getSingleCard(test_box, card4);
-		test.test_getSingleCard(test_box, card5);
+		test.test_getSingleCard(test_box, card5);*/
 		
-		test.test_sentSingleCard(test_box, simpleHeap);
-		test.test_getSingleCard(test_box, card5);
-		
-		test.test_getOpenedCard(test_box);
+	//	test.test_sentSingleCard(test_box, simpleHeap);
 		
 		test.test_getAllCard(test_box);
+		
+	//	test.test_getSingleCard(test_box, card5);
+		
+/*		test.test_getOpenedCard(test_box);
+		
+		test.test_getAllCard(test_box);*/
 		
 		test.test_undo(test_box);
 		test.test_getAllCard(test_box);

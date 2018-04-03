@@ -79,8 +79,6 @@ public class DealerImpl implements Dealer{
 
 	@Override
 	public MoveState sentCards(Component c, int number) {
-		if(number==1)
-			return sentSingleCard(c);
 		return MoveState.ILLEGAL_MOVE;
 	}
 
@@ -143,9 +141,11 @@ public class DealerImpl implements Dealer{
 		
 		cardQueue.clear();
 		
-		String[] temp3=temp[1].split(" ");
-		for(int i=0;i<temp3.length;i++)
-			cardQueue.add(CardImpl.valueOf(temp3[i]));
+		if(temp.length==2){
+			String[] temp3=temp[1].split(" ");
+			for(int i=0;i<temp3.length;i++)
+				cardQueue.add(CardImpl.valueOf(temp3[i]));
+		}
 		
 		return true;
 	}
@@ -176,20 +176,22 @@ public class DealerImpl implements Dealer{
 		int nextNumber=(mode==Mode.THREE_CARD_MODE)?3:1;
 		cardIndex+=topCardNumber;
 		topCardNumber=nextNumber;
-		if(24-unknowCard>=cardQueueCache.size()){
-			for(int i=0;i<nextNumber;i++){
-				Card temp=cardInitializer.getCard(Components.DEALER);
-				cardQueue.add(temp);
-				cardQueueCache.add(temp);
+		if(unknowCard>0){
+			if(24-unknowCard>=cardQueueCache.size()){
+				for(int i=0;i<nextNumber;i++){
+					Card temp=cardInitializer.getCard(Components.DEALER);
+					cardQueue.add(temp);
+					cardQueueCache.add(temp);
+				}
+			}else{
+				for(int i=0;i<nextNumber;i++){
+					Card temp=cardQueueCache.get(24-unknowCard+i);
+					cardQueue.add(temp);
+					cardQueueCache.add(temp);
+				}
 			}
-		}else{
-			for(int i=0;i<nextNumber;i++){
-				Card temp=cardQueueCache.get(24-unknowCard+i);
-				cardQueue.add(temp);
-				cardQueueCache.add(temp);
-			}
+			unknowCard-=nextNumber;
 		}
-		unknowCard-=nextNumber;
 		
 		if(cardIndex>=cardQueue.size())
 			cardIndex=0;

@@ -34,6 +34,8 @@ public class CardGameImpl implements CardGame{
 		}
 	}
 	
+	private boolean needAnalyze=true;
+	
 	private Deque<Operation_pair> snapshot=new ArrayDeque<>();
 
 	private Dealer dealer;
@@ -90,6 +92,12 @@ public class CardGameImpl implements CardGame{
 		map.put(Components.CARD_HEAP_5, this.cardHeap_5);
 		map.put(Components.CARD_HEAP_6, this.cardHeap_6);
 		map.put(Components.CARD_HEAP_7, this.cardHeap_7);
+		
+		if(needAnalyze){
+			needAnalyze=false;
+			tipsGetter.analyzerGame(this);
+			needAnalyze=true;
+		}
 	}
 
 	private Operation_pair getSnapshot(Components from, Components to){
@@ -98,22 +106,48 @@ public class CardGameImpl implements CardGame{
 	
 	@Override
 	public MoveState moveSingleCard(Components from, Components to) {
-		snapshot.add(getSnapshot(from, to));
+		if(from==to)
+			return MoveState.ILLEGAL_MOVE;
+		
 		MoveState ms=map.get(from).sentSingleCard(map.get(to));
-		pointCounter.addPoint(map.get(from), map.get(to), ms);
 		
-		tipsGetter.analyzerGame(this);
+		if(ms==MoveState.SUCCESS){
+			snapshot.push(getSnapshot(from, to));
 		
+			pointCounter.addPoint(map.get(from), map.get(to), ms);
+			
+			if(needAnalyze){
+				needAnalyze=false;
+				tipsGetter.analyzerGame(this);
+				needAnalyze=true;
+			}
+		
+		}
 		return ms;
 	}
 
 	@Override
 	public MoveState moveCards(Components from, Components to, int number) {
-		snapshot.add(getSnapshot(from, to));
-		MoveState ms=map.get(from).sentCards(map.get(to),number);
-		pointCounter.addPoint(map.get(from), map.get(to), ms);
+		if(from==to)
+			return MoveState.ILLEGAL_MOVE;
 		
-		tipsGetter.analyzerGame(this);
+		if(number==1){
+			return moveSingleCard(from,to);
+		}
+		
+		MoveState ms=map.get(from).sentCards(map.get(to),number);
+		
+		if(ms==MoveState.SUCCESS){
+			snapshot.push(getSnapshot(from, to));
+		
+			pointCounter.addPoint(map.get(from), map.get(to), ms);
+			
+			if(needAnalyze){
+				needAnalyze=false;
+				tipsGetter.analyzerGame(this);
+				needAnalyze=true;
+			}
+		}
 		
 		return ms;
 	}
@@ -149,6 +183,7 @@ public class CardGameImpl implements CardGame{
 		if(op.o==Operation.next){
 			dealer.undo();
 		}else{
+			System.out.println("undo:"+op.from+" "+op.to);
 			map.get(op.from).undo();
 			map.get(op.to).undo();
 			pointCounter.undo();
