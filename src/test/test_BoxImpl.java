@@ -50,7 +50,7 @@ public  class test_BoxImpl {
 		test.test_undo(test_box);
 		test.test_getAllCard(test_box);
 		
-		test.test_undoAll(test_box);
+		test.test_undo(test_box);
 		test.test_getAllCard(test_box);
 		
 	}

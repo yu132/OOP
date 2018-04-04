@@ -88,6 +88,13 @@ public class Cil_UI {
 			}
 			break;
 			
+		case "ut":
+		case "usetips":
+			System.out.println(core.getTips());
+			String[] t=core.getTips().split(" ");
+			System.out.println(core.moveCards(Components.valueOf(t[0]), Components.valueOf(t[1]), Integer.valueOf(t[2])));
+			break;
+			
 		case "mv":
 		case "move":
 			if(inputsp.length!=3&&inputsp.length!=4){

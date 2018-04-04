@@ -67,12 +67,14 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 			}
 		}
 		
+	//	System.out.println("#1");
+		
 		for(int i=1;i<=7;i++){
 			for(int j=1;j<=4;j++){
 				if(cardGame.moveCards(map.get(i), boxmap.get(j), 1)==MoveState.SUCCESS){
 					tips.add(map.get(i)+" "+boxmap.get(j)+" "+1);
 					
-					System.out.println("Analyzer:"+map.get(i)+" "+boxmap.get(j)+" "+1);
+				//	System.out.println("Analyzer:"+map.get(i)+" "+boxmap.get(j)+" "+1);
 					
 					cardGame.undo();
 					if(fastMode){
@@ -82,6 +84,8 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 			}
 		}
 		
+	//	System.out.println("#2");
+		
 		for(int num=1;num<13;num++){
 			for(int i=1;i<=7;i++){
 				for(int j=1;j<=7;j++){
@@ -90,7 +94,7 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 					if(cardGame.moveCards(map.get(i), map.get(j), num)==MoveState.SUCCESS){
 						tips.add(map.get(i)+" "+map.get(j)+" "+num);
 						
-						System.out.println("Analyzer:"+map.get(i)+" "+map.get(j)+" "+num);
+					//	System.out.println("Analyzer:"+map.get(i)+" "+map.get(j)+" "+num);
 						
 						cardGame.undo();
 						if(fastMode){
@@ -101,12 +105,14 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 			}
 		}
 		
+	//	System.out.println("#3");
+		
 		for(int i=0;i<8;i++){
 			for(int j=1;j<=7;j++){
 				if(cardGame.moveCards(Components.DEALER, map.get(j), 1)==MoveState.SUCCESS){
 					tips.add(Components.DEALER+" "+map.get(j)+" "+1);
 					
-					System.out.println("Analyzer:"+Components.DEALER+" "+map.get(j)+" "+1);
+				//	System.out.println("Analyzer:"+Components.DEALER+" "+map.get(j)+" "+1);
 					
 					cardGame.undo();
 					if(fastMode){
@@ -120,7 +126,7 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 				if(cardGame.moveCards(Components.DEALER, boxmap.get(j), 1)==MoveState.SUCCESS){
 					tips.add(Components.DEALER+" "+boxmap.get(j)+" "+1);
 					
-					System.out.println("Analyzer:"+Components.DEALER+" "+boxmap.get(j)+" "+1);
+				//	System.out.println("Analyzer:"+Components.DEALER+" "+boxmap.get(j)+" "+1);
 					
 					cardGame.undo();
 					if(fastMode){
@@ -130,11 +136,15 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 					}
 				}
 			}
+		//	System.out.println("next:"+i);
 			cardGame.nextCard();
 		}
+		//System.out.println("#4");
 		for(int i=0;i<8;i++){
+		//	System.out.println("undo:"+i);
 			cardGame.undo();
 		}
+		//System.out.println("#5");
 	}
 
 	@Override

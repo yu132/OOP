@@ -154,7 +154,7 @@ public class CardGameImpl implements CardGame{
 
 	@Override
 	public void nextCard() {
-		snapshot.add(new Operation_pair(Operation.next,null,null));
+		snapshot.push(new Operation_pair(Operation.next,null,null));
 		dealer.nextCards();
 	}
 
