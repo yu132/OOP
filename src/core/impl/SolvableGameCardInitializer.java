@@ -650,6 +650,11 @@ public class SolvableGameCardInitializer implements CardInitializer{
 			SolvableCardGame ans=getASolvableCardGamePro();
 			while(ans==null)
 				ans=getASolvableCardGamePro();
+			Collections.reverse(ans.mvlist);
+			
+			for(int i=0;i<7;i++)
+				Collections.reverse(ans.CardHeap[i]);
+			
 			return ans;
 		}
 		
@@ -663,6 +668,9 @@ public class SolvableGameCardInitializer implements CardInitializer{
 	
 	@Override
 	public Card getCard(Components c) {
+		
+		System.out.println(scg.mvlist);
+		
 		switch(c){
 		case DEALER:
 			return scg.Dealer.get(dealerIndex++);

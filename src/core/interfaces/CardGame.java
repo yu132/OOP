@@ -107,6 +107,8 @@ public interface CardGame {
 	 */
 	public int getPoint();
 	
+	public String lastMove();
+	
 	/**
 	 * 停止游戏
 	 */

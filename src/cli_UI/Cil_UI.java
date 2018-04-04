@@ -92,7 +92,13 @@ public class Cil_UI {
 		case "usetips":
 			System.out.println(core.getTips());
 			String[] t=core.getTips().split(" ");
+			if(t.length==4)
+				for(int i=0;i<Integer.parseInt(t[3]);i++)
+					core.nextCard();
 			System.out.println(core.moveCards(Components.valueOf(t[0]), Components.valueOf(t[1]), Integer.valueOf(t[2])));
+			break;
+			
+		case "mvlist":
 			break;
 			
 		case "mv":

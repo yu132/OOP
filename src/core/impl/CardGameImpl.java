@@ -59,6 +59,8 @@ public class CardGameImpl implements CardGame{
 	
 	private CardGameAnalyzer tipsGetter;
 	
+	private String lastMove="";
+	
 	private Map<Components,Component> map=new HashMap<>();
 	
 	public CardGameImpl(Dealer dealer, Box box_1, Box box_2, Box box_3, Box box_4, CardHeap cardHeap_1,
@@ -112,12 +114,15 @@ public class CardGameImpl implements CardGame{
 		MoveState ms=map.get(from).sentSingleCard(map.get(to));
 		
 		if(ms==MoveState.SUCCESS){
+			
+			
 			snapshot.push(getSnapshot(from, to));
 		
 			pointCounter.addPoint(map.get(from), map.get(to), ms);
 			
 			if(needAnalyze){
 				needAnalyze=false;
+				lastMove=from+" "+to+" "+1;
 				tipsGetter.analyzerGame(this);
 				needAnalyze=true;
 			}
@@ -138,12 +143,15 @@ public class CardGameImpl implements CardGame{
 		MoveState ms=map.get(from).sentCards(map.get(to),number);
 		
 		if(ms==MoveState.SUCCESS){
+			
+			
 			snapshot.push(getSnapshot(from, to));
 		
 			pointCounter.addPoint(map.get(from), map.get(to), ms);
 			
 			if(needAnalyze){
 				needAnalyze=false;
+				lastMove=from+" "+to+" "+number;
 				tipsGetter.analyzerGame(this);
 				needAnalyze=true;
 			}
@@ -154,6 +162,9 @@ public class CardGameImpl implements CardGame{
 
 	@Override
 	public void nextCard() {
+		if(needAnalyze){
+			lastMove="next";
+		}
 		snapshot.push(new Operation_pair(Operation.next,null,null));
 		dealer.nextCards();
 	}
@@ -235,5 +246,10 @@ public class CardGameImpl implements CardGame{
 
 	@Override
 	public void stopGame() {}
+
+	@Override
+	public String lastMove() {
+		return lastMove;
+	}
 
 }

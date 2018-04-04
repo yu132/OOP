@@ -84,13 +84,67 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 			}
 		}
 		
+		for(int i=0;i<8;i++){
+			for(int j=1;j<=7;j++){
+				if(cardGame.moveCards(Components.DEALER, map.get(j), 1)==MoveState.SUCCESS){
+					tips.add(Components.DEALER+" "+map.get(j)+" "+1+" "+i);
+					
+				//	System.out.println("Analyzer:"+Components.DEALER+" "+map.get(j)+" "+1);
+					
+					cardGame.undo();
+					if(fastMode){
+						while(i--!=0)
+							cardGame.undo();
+						return;
+					}
+				}
+			}
+			for(int j=1;j<=4;j++){
+				if(cardGame.moveCards(Components.DEALER, boxmap.get(j), 1)==MoveState.SUCCESS){
+					tips.add(Components.DEALER+" "+boxmap.get(j)+" "+1+" "+i);
+					
+				//	System.out.println("Analyzer:"+Components.DEALER+" "+boxmap.get(j)+" "+1);
+					
+					cardGame.undo();
+					if(fastMode){
+						while(i--!=0)
+							cardGame.undo();
+						return;
+					}
+				}
+			}
+		//	System.out.println("next:"+i);
+			cardGame.nextCard();
+		}
+		for(int i=0;i<8;i++){
+		//	System.out.println("undo:"+i);
+			cardGame.undo();
+		}
+		
 	//	System.out.println("#2");
+		
+		String[] sp=cardGame.lastMove().split(" ");
+		
+		boolean move=sp.length!=1;
+		
+		Components from = null;
+		Components to = null;
+		int numx = 0;
+		
+		if(move){
+			from=Components.valueOf(sp[0]);
+			to=Components.valueOf(sp[1]);
+			numx=Integer.parseInt(sp[2]);
+		}
 		
 		for(int num=1;num<13;num++){
 			for(int i=1;i<=7;i++){
 				for(int j=1;j<=7;j++){
 					if(i==j)
 						continue;
+					if(move)
+						if(map.get(i)==to&&map.get(j)==from&&num==numx)
+							continue;
 					if(cardGame.moveCards(map.get(i), map.get(j), num)==MoveState.SUCCESS){
 						tips.add(map.get(i)+" "+map.get(j)+" "+num);
 						
@@ -107,44 +161,7 @@ public class SingleStepCardGameAnalyzerImpl implements CardGameAnalyzer{
 		
 	//	System.out.println("#3");
 		
-		for(int i=0;i<8;i++){
-			for(int j=1;j<=7;j++){
-				if(cardGame.moveCards(Components.DEALER, map.get(j), 1)==MoveState.SUCCESS){
-					tips.add(Components.DEALER+" "+map.get(j)+" "+1);
-					
-				//	System.out.println("Analyzer:"+Components.DEALER+" "+map.get(j)+" "+1);
-					
-					cardGame.undo();
-					if(fastMode){
-						while(i--!=0)
-							cardGame.undo();
-						return;
-					}
-				}
-			}
-			for(int j=1;j<=4;j++){
-				if(cardGame.moveCards(Components.DEALER, boxmap.get(j), 1)==MoveState.SUCCESS){
-					tips.add(Components.DEALER+" "+boxmap.get(j)+" "+1);
-					
-				//	System.out.println("Analyzer:"+Components.DEALER+" "+boxmap.get(j)+" "+1);
-					
-					cardGame.undo();
-					if(fastMode){
-						while(i--!=0)
-							cardGame.undo();
-						return;
-					}
-				}
-			}
-		//	System.out.println("next:"+i);
-			cardGame.nextCard();
-		}
-		//System.out.println("#4");
-		for(int i=0;i<8;i++){
-		//	System.out.println("undo:"+i);
-			cardGame.undo();
-		}
-		//System.out.println("#5");
+		
 	}
 
 	@Override
