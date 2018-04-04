@@ -194,6 +194,9 @@ public class CardHeapImpl implements CardHeap{
 					openNew = false;
 					openstate.push(openNew);
 				}
+			}else{
+				openNew = false;
+				openstate.push(openNew);
 			}
 		}else{
 			snapshot.pop();
