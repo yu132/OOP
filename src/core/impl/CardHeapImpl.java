@@ -178,18 +178,22 @@ public class CardHeapImpl implements CardHeap{
 		if(ms==MoveState.SUCCESS){
 			totalNumber-=number;
 			if(totalNumber==unopenedCard){
-				unopenedCard--;
-				openNew=true;
-				openstate.push(openNew);
-				if(openedcard.isEmpty()){
-					Card temp = generate.getCard(thisc);
-					cardStack.push(temp);
-					openedcard2.push(temp);
+				if(unopenedCard>0){
+					unopenedCard--;
+					openNew=true;
+					openstate.push(openNew);
+					if(openedcard.isEmpty()){
+						Card temp = generate.getCard(thisc);
+						cardStack.push(temp);
+						openedcard2.push(temp);
+					}else{
+						Card temp = openedcard.pop();
+						cardStack.push(temp);
+					}
 				}else{
-					Card temp = openedcard.pop();
-					cardStack.push(temp);
+					openNew = false;
+					openstate.push(openNew);
 				}
-				
 			}
 		}else{
 			snapshot.pop();
@@ -197,8 +201,6 @@ public class CardHeapImpl implements CardHeap{
 				topCard = li.get(i);
 				cardStack.push(topCard);;
 			}
-			openNew=false;
-			openstate.push(openNew);
 		}
 		return ms;
 		
