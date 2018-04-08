@@ -199,6 +199,13 @@ public class SolvableGameCardInitializer implements CardInitializer{
 			return false;
 		}
 		
+		private static boolean isHeapCoverableMax(ArrayList<Card> CardHeap[],int[] coverNumber,int x){
+			if(coverNumber[x]==x)
+				return false;
+			else
+				return true;
+		}
+		
 		private static boolean fromHeapToDealer(ArrayList<Card> CardHeap[],int[] coverNumber,Card[][] tempDealer,int from,int to,int[] togiveNum,int lastGroup,ArrayList<Operation> mvlist){
 			if(CardHeap[from].size()==coverNumber[from]){
 				return false;
@@ -607,7 +614,7 @@ public class SolvableGameCardInitializer implements CardInitializer{
 											continue;
 										
 										int num=CardHeap[h1].size()-coverNumber[h1]-1;
-										if(fromHeaptoHeap(CardHeap, coverNumber, h1, h2,num,mvlist)){
+										if(isHeapCoverableMax(CardHeap, coverNumber, h1)&&fromHeaptoHeap(CardHeap, coverNumber, h1, h2,num,mvlist)){
 											coverHeapCard(CardHeap, coverNumber, h1);
 											coverHeapCard(CardHeap, coverNumber, h1);
 											
@@ -627,7 +634,7 @@ public class SolvableGameCardInitializer implements CardInitializer{
 										int h2=ruH2.getNum();
 										if(h1==h2)
 											continue;
-										if(fromHeaptoHeap(CardHeap, coverNumber, h1, h2, 1,mvlist)){
+										if(isHeapCoverableMax(CardHeap, coverNumber, h2)&&fromHeaptoHeap(CardHeap, coverNumber, h1, h2, 1,mvlist)){
 											coverHeapCard(CardHeap, coverNumber, h1);
 											coverHeapCard(CardHeap, coverNumber, h2);
 											
@@ -650,7 +657,9 @@ public class SolvableGameCardInitializer implements CardInitializer{
 										int h2=ruH2.getNum();
 										if(h1==h2)
 											continue;
-										int num=r.nextInt(CardHeap[h1].size()-coverNumber[h1]);
+										int num=(CardHeap[h1].size()-coverNumber[h1])/2;
+										if(num==1)
+											continue;
 										if(fromHeaptoHeap(CardHeap, coverNumber, h1, h2, num,mvlist)){
 											coverHeapCard(CardHeap, coverNumber, h1);
 											coverHeapCard(CardHeap, coverNumber, h2);
