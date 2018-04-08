@@ -49,6 +49,8 @@ public class CardManagementImplBindingAnalyzer implements CardManagement{
 	
 	private BindingCardGameAnalyzer tipsGetter;
 	
+	private String lastMove="";
+	
 	private Map<Components,Component> map=new HashMap<>();
 	
 	public CardManagementImplBindingAnalyzer(Dealer dealer, Box box_1, Box box_2, Box box_3, Box box_4, CardHeap cardHeap_1,
@@ -108,6 +110,7 @@ public class CardManagementImplBindingAnalyzer implements CardManagement{
 			
 			if(needAnalyze){
 				needAnalyze=false;
+				lastMove=from+" "+to+" "+1;
 				tipsGetter.analyzerGame();
 				needAnalyze=true;
 			}
@@ -136,6 +139,7 @@ public class CardManagementImplBindingAnalyzer implements CardManagement{
 			
 			if(needAnalyze){
 				needAnalyze=false;
+				lastMove=from+" "+to+" "+number;
 				tipsGetter.analyzerGame();
 				needAnalyze=true;
 			}
@@ -146,6 +150,9 @@ public class CardManagementImplBindingAnalyzer implements CardManagement{
 
 	@Override
 	public void nextCard() {
+		if(needAnalyze){
+			lastMove="next";
+		}
 		snapshot.push(new Operation_pair(Operation.next,null,null));
 		dealer.nextCards();
 	}
@@ -194,6 +201,11 @@ public class CardManagementImplBindingAnalyzer implements CardManagement{
 	@Override
 	public boolean undoable() {
 		return !snapshot.isEmpty();
+	}
+	
+	@Override
+	public String lastMove() {
+		return lastMove;
 	}
 
 }

@@ -16,4 +16,6 @@ public interface CardManagement {
 	
 	public boolean undoAll();
 	
+	public String lastMove();
+	
 }
