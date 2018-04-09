@@ -88,7 +88,8 @@ public class BoxImpl implements Box{
 		return MoveState.ILLEGAL_MOVE;
 	}
 
-	public ArrayList<String> getOpenedCard() {
+	@Override
+	public ArrayList<String> getTopCard() {
 		ArrayList<String> temp=new ArrayList<>();
 		if(!cardStack.isEmpty())
 			temp.add(cardStack.peek().toString());

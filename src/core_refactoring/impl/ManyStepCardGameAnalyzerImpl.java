@@ -1,11 +1,10 @@
-package core_refactoring.impl.easy;
+package core_refactoring.impl;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 
 import core_refactoring.*;
-import core_refactoring.impl.SingleStepCardGameAnalyzerImpl;
 
 public class ManyStepCardGameAnalyzerImpl implements BindingCardGameAnalyzer{
 	
@@ -59,6 +58,8 @@ public class ManyStepCardGameAnalyzerImpl implements BindingCardGameAnalyzer{
 				break;
 			case CARD_HEAP_7:
 				CardHeap[6].add(card);
+				break;
+			default:
 				break;
 			}
 			return card;

@@ -37,6 +37,8 @@ public interface Component {
 	 */
 	MoveState getCards(ArrayList<Card> cards);
 	
+	public ArrayList<String> getTopCard();
+	
 	/**
 	 * 获取所有牌，看不见的用指定字符串填充
 	 * @return  牌的枚举常量

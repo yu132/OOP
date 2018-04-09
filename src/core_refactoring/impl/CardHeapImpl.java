@@ -233,7 +233,8 @@ public class CardHeapImpl implements CardHeap{
 			return temp;
 	}
 
-	public ArrayList<String> getOpenedCard() {
+	@Override
+	public ArrayList<String> getTopCard() {
 		ArrayList<String> temp=new ArrayList<>();
 		
 		for(Card c:cardStack){
@@ -313,7 +314,6 @@ public class CardHeapImpl implements CardHeap{
 
 	@Override
 	public boolean openCardLastRound() {
-		// TODO Auto-generated method stub
 		return openstate.peek();
 	}
 

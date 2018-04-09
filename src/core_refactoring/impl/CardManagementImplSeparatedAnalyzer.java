@@ -156,12 +156,16 @@ public class CardManagementImplSeparatedAnalyzer implements CardManagement{
 		snapshot.push(new Operation_pair(Operation.next,null,null));
 		dealer.nextCards();
 	}
+	
+	@Override
+	public ArrayList<String> getTopCard(Components c) {
+		return map.get(c).getTopCard();
+	}
 
 	@Override
 	public ArrayList<String> getAllCard(Components c) {
 		return map.get(c).getAllCard();
 	}
-
 
 	@Override
 	public boolean undo() {

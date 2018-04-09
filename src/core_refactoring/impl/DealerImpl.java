@@ -81,7 +81,8 @@ public class DealerImpl implements Dealer{
 		return MoveState.ILLEGAL_MOVE;
 	}
 
-	public ArrayList<String> getOpenedCard() {
+	@Override
+	public ArrayList<String> getTopCard() {
 		ArrayList<String> temp=new ArrayList<>();
 		for(int i=0;i<topCardNumber;i++){
 			temp.add(cardQueue.get(cardIndex+i).toString());

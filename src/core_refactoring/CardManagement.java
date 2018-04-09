@@ -8,6 +8,8 @@ public interface CardManagement {
 	
 	public void nextCard();
 	
+	public ArrayList<String> getTopCard(Components c);
+	
 	public ArrayList<String> getAllCard(Components c);
 	
 	public boolean undoable();

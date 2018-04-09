@@ -2,9 +2,6 @@ package core_refactoring;
 
 import java.util.ArrayList;
 
-import core.interfaces.MoveState;
-import core.interfaces.CardGame.Components;
-
 public interface CardGame {
 
 	public MoveState moveCards(Components from,Components to,int number);

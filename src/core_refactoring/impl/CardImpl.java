@@ -54,7 +54,7 @@ public class CardImpl implements Card{
 		return cards[type][number];
 	}
 	
-	static CardImpl valueOf(String toString){
+	public static CardImpl valueOf(String toString){
 		String[] temp=toString.split("_");
 		try{
 			CardType cardType=CardType.valueOf(temp[0]);
