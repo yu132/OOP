@@ -83,7 +83,7 @@ public class CardHeapImpl implements CardHeap{
 	 * @return 当前卡牌的快照，以String方式存储
 	 */
 	private String getSnapshot(){
-		StringBuilder sb=new StringBuilder(cardStack.size()*10);
+		StringBuilder sb=new StringBuilder(cardStack.size()*20);
 		boolean f=true;
 		for(Card c:cardStack){
 			if(f){
@@ -278,9 +278,11 @@ public class CardHeapImpl implements CardHeap{
 			return false;
 		
 		String last=snapshot.pop();
+		openNew = openstate.pop();
 		if(openNew){
 			unopenedCard++;
-			openedcard.push(cardStack.peek());
+			if(!cardStack.isEmpty())
+				openedcard.push(cardStack.peek());
 		}
 		cardStack.clear();
 		String[] cards=last.split(" ");
@@ -290,7 +292,7 @@ public class CardHeapImpl implements CardHeap{
 			cardStack.push(CardImpl.valueOf(cards[cards.length-1-i]));
 		
 		totalNumber = unopenedCard+visiableNumber;
-		openNew = openstate.pop();
+		
 		return true;
 	}
 
