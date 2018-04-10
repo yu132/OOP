@@ -109,12 +109,16 @@ public class CardHeapImpl implements CardHeap{
 					cardStack.push(temp);
 					openedcard2.push(temp);
 					openNew=true;
+					unopenedCard--;
 				}else if(unopenedCard>0&&!openedcard.isEmpty()){
 					Card temp = openedcard.pop();
 					cardStack.push(temp);
 					openNew=true;
+					unopenedCard--;
+				}else{
+					openNew=false;
 				}
-				unopenedCard--;
+				
 				
 			}else{
 				totalNumber--;
@@ -279,14 +283,17 @@ public class CardHeapImpl implements CardHeap{
 				openedcard.push(cardStack.peek());
 		}
 		cardStack.clear();
-		String[] cards=last.split(" ");
-		int visiableNumber = cards.length;
 		
-		for(int i=0;i<cards.length;i++)
-			cardStack.push(CardImpl.valueOf(cards[cards.length-1-i]));
-		
-		totalNumber = unopenedCard+visiableNumber;
-		
+		if(!last.equals("")){
+			String[] cards=last.split(" ");
+			int visiableNumber = cards.length;
+			for(int i=0;i<cards.length;i++)
+				cardStack.push(CardImpl.valueOf(cards[cards.length-1-i]));
+			totalNumber = unopenedCard+visiableNumber;
+		}else{
+			totalNumber=0;
+		}
+
 		return true;
 	}
 
