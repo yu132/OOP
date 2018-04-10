@@ -10,6 +10,8 @@ public interface CardGame {
 	
 	public ArrayList<String> getAllCard(Components c);
 	
+	public ArrayList<String> getTopCard(Components c);
+	
 	public boolean undoable();
 	
 	public boolean undo();

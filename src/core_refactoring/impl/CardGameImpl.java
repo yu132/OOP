@@ -78,4 +78,9 @@ public class CardGameImpl implements CardGame{
 		return pointCounter.getPoint();
 	}
 
+	@Override
+	public ArrayList<String> getTopCard(Components c) {
+		return cardGameManager.getTopCard(c);
+	}
+
 }
