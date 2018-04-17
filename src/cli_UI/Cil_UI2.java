@@ -75,6 +75,10 @@ static private Map<String,Components> strMap=new HashMap<>();
 				System.out.println("Success");
 			}else
 				System.out.println("Game has started");
+			
+			for(int i=0;i<12;i++){
+				System.out.println(Components.values()[i]+":"+core.getTopCard(Components.values()[i]));
+			}
 			break;
 			
 		case "show":
@@ -90,7 +94,7 @@ static private Map<String,Components> strMap=new HashMap<>();
 			break;
 			
 		case "ut":
-		case "usetips":
+		case "tip":
 			System.out.println(core.getTips());
 			String[] t=core.getTips().split(" ");
 			if(t.length==4)
@@ -98,6 +102,13 @@ static private Map<String,Components> strMap=new HashMap<>();
 					core.nextCard();
 			System.out.println(core.moveCards(Components.valueOf(t[0]), Components.valueOf(t[1]), Integer.valueOf(t[2])));
 			break;
+			
+		case "ti":
+		case "usetips":
+			System.out.println(core.getTips());
+			
+			break;
+			
 			
 		case "mvlist":
 			break;
@@ -117,6 +128,10 @@ static private Map<String,Components> strMap=new HashMap<>();
 				}catch(Exception e){
 					System.out.println("Wrong input");
 				}
+			
+			for(int i=0;i<12;i++){
+				System.out.println(Components.values()[i]+":"+core.getTopCard(Components.values()[i]));
+			}
 			break;
 			
 		case "n":
@@ -124,6 +139,10 @@ static private Map<String,Components> strMap=new HashMap<>();
 		case "nextcard":
 			core.nextCard();
 			System.out.println("Success");
+			
+			for(int i=0;i<12;i++){
+				System.out.println(Components.values()[i]+":"+core.getTopCard(Components.values()[i]));
+			}
 			break;
 		
 		case "ud":
