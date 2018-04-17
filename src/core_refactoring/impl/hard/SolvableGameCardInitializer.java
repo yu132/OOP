@@ -189,6 +189,10 @@ public class SolvableGameCardInitializer implements CardInitializer{
 			if(coverNumber[x]==x)
 				return false;
 			if(CardHeap[x].size()==coverNumber[x]+1){
+			/*	if(CardHeap[x].get(coverNumber[x]).getCardNumber()==CardNumber.KING){
+					if(r.nextInt(100)<95)
+						return false;
+				}*/
 				coverNumber[x]++;
 				return true;
 			}
@@ -530,10 +534,11 @@ public class SolvableGameCardInitializer implements CardInitializer{
 			
 		}
 		
-		private static void print(ArrayList<Card>[] CardHeap,Card[][] tempDealer){
+		private static void print(ArrayList<Card>[] CardHeap,Card[][] tempDealer,int[] coverNumber,ArrayList<Operation> mvlist){
 			Set<Card> all=new HashSet<>();
 			for(int i=1;i<=7;i++){
 				System.out.println("牌堆"+i+":"+CardHeap[i-1]);
+				System.out.println("盖上的数量:"+coverNumber[i-1]);
 				all.addAll(CardHeap[i-1]);
 			}
 			System.out.println();
@@ -552,6 +557,10 @@ public class SolvableGameCardInitializer implements CardInitializer{
 			all.add(null);
 			
 			System.out.println("总牌数："+(all.size()-1));
+			
+			Collections.reverse(mvlist);
+			System.out.println(mvlist);
+			Collections.reverse(mvlist);
 			System.out.println();
 			
 		}
@@ -580,13 +589,13 @@ public class SolvableGameCardInitializer implements CardInitializer{
 			
 			initHeap(CardHeap);
 			
-			print(CardHeap, tempDealer);//
+			print(CardHeap, tempDealer,coverNumber,mvlist);//
 			
 			while(allDealerNum!=0){
 				
 				int[] ret=organizeDealer(tempDealer, togiveNum, allDealerNum);
 				
-				print(CardHeap, tempDealer);//
+				print(CardHeap, tempDealer,coverNumber,mvlist);//
 				
 				allDealerNum=ret[0];
 				
@@ -614,7 +623,7 @@ public class SolvableGameCardInitializer implements CardInitializer{
 											coverHeapCard(CardHeap, coverNumber, h1);
 											coverHeapCard(CardHeap, coverNumber, h1);
 											
-											print(CardHeap, tempDealer);//
+											print(CardHeap, tempDealer,coverNumber,mvlist);//
 											
 											break l;
 										}
@@ -634,7 +643,7 @@ public class SolvableGameCardInitializer implements CardInitializer{
 											coverHeapCard(CardHeap, coverNumber, h1);
 											coverHeapCard(CardHeap, coverNumber, h2);
 											
-											print(CardHeap, tempDealer);//											
+											print(CardHeap, tempDealer,coverNumber,mvlist);//										
 											
 											break l;
 										}
@@ -660,7 +669,7 @@ public class SolvableGameCardInitializer implements CardInitializer{
 											coverHeapCard(CardHeap, coverNumber, h1);
 											coverHeapCard(CardHeap, coverNumber, h2);
 											
-											print(CardHeap, tempDealer);//
+											print(CardHeap, tempDealer,coverNumber,mvlist);//
 											
 											break l;
 										}
@@ -674,10 +683,14 @@ public class SolvableGameCardInitializer implements CardInitializer{
 						ruH1.reSet();
 						for(int x=1;x<=6;x++){
 							int from=ruH1.getNum();
+							
+							if(CardHeap[from].size()-coverNumber[from]==1)
+								continue;
+							
 							if(fromHeapToDealer(CardHeap, coverNumber, tempDealer, from, i, togiveNum,ret[1],mvlist)){
 								coverHeapCard(CardHeap, coverNumber, from);
 								
-								print(CardHeap, tempDealer);//
+								print(CardHeap, tempDealer,coverNumber,mvlist);//
 								
 								break;
 							}
@@ -703,7 +716,8 @@ public class SolvableGameCardInitializer implements CardInitializer{
 			if(!organizeHeap(CardHeap, coverNumber,mvlist))
 				return null;
 			
-			print(CardHeap, tempDealer);//
+			print(CardHeap, tempDealer,coverNumber,mvlist);//
+			
 			Collections.reverse(mvlist);
 			System.out.println(mvlist);
 			Collections.reverse(mvlist);
