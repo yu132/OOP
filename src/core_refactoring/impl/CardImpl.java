@@ -158,9 +158,32 @@ public class CardImpl implements Card{
 	}
 
 	@Override
-	public Card getCardSrackable() {
-		// TODO Auto-generated method stub
-		return null;
+	public Card[] getCardStackable() {
+		if(CARDNUMBER==CardNumber.ACE)
+			return null;
+		Card[] cards=new Card[2];
+		if(CARDTYPE==CardType.CLUBS||CARDTYPE==CardType.SPADES){
+			cards[0]=valueOf(CardNumber.values()[CARDNUMBER.ordinal()-1], CardType.DIAMONDS);
+			cards[1]=valueOf(CardNumber.values()[CARDNUMBER.ordinal()-1], CardType.HEARTS);
+		}else{
+			cards[0]=valueOf(CardNumber.values()[CARDNUMBER.ordinal()-1], CardType.CLUBS);
+			cards[1]=valueOf(CardNumber.values()[CARDNUMBER.ordinal()-1], CardType.SPADES);
+		}
+		return cards;
 	}
 	
+	@Override
+	public Card[] getCardNeedToStack() {
+		if(CARDNUMBER==CardNumber.KING)
+			return null;
+		Card[] cards=new Card[2];
+		if(CARDTYPE==CardType.CLUBS||CARDTYPE==CardType.SPADES){
+			cards[0]=valueOf(CardNumber.values()[CARDNUMBER.ordinal()+1], CardType.DIAMONDS);
+			cards[1]=valueOf(CardNumber.values()[CARDNUMBER.ordinal()+1], CardType.HEARTS);
+		}else{
+			cards[0]=valueOf(CardNumber.values()[CARDNUMBER.ordinal()+1], CardType.CLUBS);
+			cards[1]=valueOf(CardNumber.values()[CARDNUMBER.ordinal()+1], CardType.SPADES);
+		}
+		return cards;
+	}
 }

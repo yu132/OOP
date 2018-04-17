@@ -13,6 +13,8 @@ public class CardChecker {
 	private RandomUniqueNumber r=new RandomUniqueNumber(0,51);
 	
 	public boolean checkCard(Card card){
+		if(card==null)
+			return false;
 		int index=card.getCardType().ordinal()*12+card.getCardNumber().ordinal();
 		if(used[index]){
 			return false;

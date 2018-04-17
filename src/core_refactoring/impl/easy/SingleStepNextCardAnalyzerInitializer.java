@@ -38,6 +38,7 @@ public class SingleStepNextCardAnalyzerInitializer implements CardInitializer{
 		Components to=Components.valueOf(movesp[1]);
 		
 		ArrayList<Card> collector=new ArrayList<>();
+		ArrayList<Card> collectorup=new ArrayList<>();
 		
 		for(int i=0;i<=7;i++){
 			Components temp=map.get(i);
@@ -51,22 +52,38 @@ public class SingleStepNextCardAnalyzerInitializer implements CardInitializer{
 				ArrayList<String> cards=cardGame.getTopCard(temp);
 				if(cards.size()>=2){
 					collector.add(CardImpl.valueOf(cards.get(0)));
-					collector.add(CardImpl.valueOf(cards.get(cards.size()-1)));
+					collectorup.add(CardImpl.valueOf(cards.get(cards.size()-1)));
 				}else if(cards.size()==1){
 					collector.add(CardImpl.valueOf(cards.get(0)));
 				}
 			}
 		}
 		
-		RandomUniqueNumber r=new RandomUniqueNumber(0, collector.size()-1);
-		for(int i=0;i<collector.size();i++){
+		RandomUniqueNumber r=new RandomUniqueNumber(0, collector.size()+collectorup.size()-1);
+		for(int i=0;i<collector.size()+collectorup.size();i++){
 			int index=r.getNum();
-			
-			Card nowCard=collector.get(index);
-			
-			Card nextCard=nowCard.getCardSrackable();
-			if(cardChecker.checkCard(nextCard)){
-				return nextCard;
+			if(i<collector.size()){
+				Card nowCard=collector.get(index);
+				Card[] nextCards=nowCard.getCardStackable();
+				if(nextCards==null)
+					continue;
+				if(cardChecker.checkCard(nextCards[0])){
+					return nextCards[0];
+				}
+				if(cardChecker.checkCard(nextCards[1])){
+					return nextCards[1];
+				}
+			}else{
+				Card nowCard=collectorup.get(index);
+				Card[] nextCards=nowCard.getCardNeedToStack();
+				if(nextCards==null)
+					continue;
+				if(cardChecker.checkCard(nextCards[0])){
+					return nextCards[0];
+				}
+				if(cardChecker.checkCard(nextCards[1])){
+					return nextCards[1];
+				}
 			}
 		}
 		return cardChecker.getRandomUnusedCard();

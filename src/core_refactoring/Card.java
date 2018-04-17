@@ -14,7 +14,9 @@ public interface Card {
 	 */
 	MoveState isStackableInHeap(Card card);
 	
-	Card getCardSrackable();
+	Card[] getCardStackable();
+	
+	Card[] getCardNeedToStack();
 	
 	/**
 	 * 判断另一张纸牌是否能够堆叠在本张纸牌上
