@@ -150,14 +150,14 @@ public class CardManagementImplSeparatedAnalyzer implements CardManagement{
 
 	@Override
 	public void nextCard() {
+		snapshot.push(new Operation_pair(Operation.next,null,null));
+		dealer.nextCards();
 		if(needAnalyze){
 			needAnalyze=false;
 			lastMove="next";
 			tipsGetter.analyzerGame(this);
 			needAnalyze=true;
 		}
-		snapshot.push(new Operation_pair(Operation.next,null,null));
-		dealer.nextCards();
 	}
 	
 	@Override

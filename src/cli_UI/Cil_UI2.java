@@ -1,5 +1,6 @@
 package cli_UI;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -7,10 +8,13 @@ import java.util.Scanner;
 import core_refactoring.CardGame;
 import core_refactoring.Components;
 import core_refactoring.impl.CardGameFactoryImpl;
+import core_refactoring.impl.hard.SolvableGameCardInitializer.SolvableCardGame.Operation;
 
 
 public class Cil_UI2 {
-static private Map<String,Components> strMap=new HashMap<>();
+	static private Map<String,Components> strMap=new HashMap<>();
+	
+	public static ArrayList<Operation> mvlist;
 	
 	static{
 		strMap.put("d", Components.DEALER);
@@ -51,6 +55,7 @@ static private Map<String,Components> strMap=new HashMap<>();
 	}
 	
 	private CardGame core;
+
 	
 	private Runnable r=new Runnable() {
 		@Override
@@ -111,6 +116,7 @@ static private Map<String,Components> strMap=new HashMap<>();
 			
 			
 		case "mvlist":
+			System.out.println(mvlist);
 			break;
 		
 		case "mv":

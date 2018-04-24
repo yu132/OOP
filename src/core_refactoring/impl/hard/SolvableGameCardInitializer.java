@@ -8,13 +8,14 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import cli_UI.Cil_UI2;
 import core_refactoring.util.RandomUniqueNumber;
 import core_refactoring.*;
 import core_refactoring.impl.*;
 
 public class SolvableGameCardInitializer implements CardInitializer{
 
-	private static class SolvableCardGame{
+	public static class SolvableCardGame{
 		
 		public static void main(String[] args) {
 			SolvableCardGame scg=SolvableCardGame.getASolvableCardGame();
@@ -721,6 +722,10 @@ public class SolvableGameCardInitializer implements CardInitializer{
 			Collections.reverse(mvlist);
 			System.out.println(mvlist);
 			Collections.reverse(mvlist);
+			
+			
+			Cil_UI2.mvlist=mvlist;
+			
 			
 			return new SolvableCardGame(CardHeap, Dealer, mvlist);
 		}
