@@ -1,5 +1,7 @@
 package core_refactoring.impl;
 
+import java.util.ArrayList;
+
 import core_refactoring.*;
 import core_refactoring.impl.easy.SingleStepNextCardAnalyzerInitializer;
 import core_refactoring.impl.hard.SolvableGameCardInitializer;
@@ -70,7 +72,38 @@ public class CardGameFactoryImpl implements CardGameFactory{
 			CardHeap cardHeap_6=new CardHeapImpl(6,c,Components.CARD_HEAP_6);
 			CardHeap cardHeap_7=new CardHeapImpl(7,c,Components.CARD_HEAP_7);
 			
-			SeparatedCardGameAnalyzer cardGameAnalyzer=new SingleStepCardGameAnalyzerImpl(false);
+			SeparatedCardGameAnalyzer cardGameAnalyzer=new SeparatedCardGameAnalyzer() {
+				
+				@Override
+				public boolean isGameOver() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public boolean isGameFinish() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+				
+				@Override
+				public ArrayList<String> getTips() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+				
+				@Override
+				public String getBestTips() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+				
+				@Override
+				public void analyzerGame(CardManagement cardManagement) {
+					// TODO Auto-generated method stub
+					
+				}
+			};//new//new SingleStepCardGameAnalyzerImpl(false);
 	
 			CardManagementImplSeparatedAnalyzer cardManagement= new CardManagementImplSeparatedAnalyzer(dealer, box_1, box_2, box_3, box_4, cardHeap_1, cardHeap_2, cardHeap_3, cardHeap_4, cardHeap_5, cardHeap_6, cardHeap_7, pointCounter, cardGameAnalyzer);
 			

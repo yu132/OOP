@@ -174,6 +174,7 @@ public class CardHeapImpl implements CardHeap{
 		}
 		MoveState ms=c.getCards(li);
 		if(ms==MoveState.SUCCESS){
+			System.out.println("sssssssssssss");
 			totalNumber-=number;
 			if(totalNumber==unopenedCard){
 				if(unopenedCard>0){

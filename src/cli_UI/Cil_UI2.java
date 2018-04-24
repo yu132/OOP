@@ -1,13 +1,17 @@
 package cli_UI;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 import core_refactoring.CardGame;
 import core_refactoring.Components;
+import core_refactoring.MoveState;
 import core_refactoring.impl.CardGameFactoryImpl;
+import core_refactoring.impl.hard.SolvableGameCardInitializer.SolvableCardGame.MoveOperation;
+import core_refactoring.impl.hard.SolvableGameCardInitializer.SolvableCardGame.NextOperation;
 import core_refactoring.impl.hard.SolvableGameCardInitializer.SolvableCardGame.Operation;
 
 
@@ -15,6 +19,8 @@ public class Cil_UI2 {
 	static private Map<String,Components> strMap=new HashMap<>();
 	
 	public static ArrayList<Operation> mvlist;
+	
+	public static int index=0;
 	
 	static{
 		strMap.put("d", Components.DEALER);
@@ -173,6 +179,34 @@ public class Cil_UI2 {
 		case "restart":
 			core=new CardGameFactoryImpl().getCardGame();
 			System.out.println("Success");
+			break;
+			
+		case "umv1":
+			Operation o1=mvlist.get(index++);
+			if(o1 instanceof NextOperation){
+				core.nextCard();
+				System.out.println("next:success");
+			}else if(o1 instanceof MoveOperation){
+				MoveState mvs=core.moveCards(((MoveOperation) o1).getTo(), ((MoveOperation) o1).getFrom(), ((MoveOperation) o1).getNum());
+				System.out.println("move from:"+((MoveOperation) o1).getTo()+" to:"+((MoveOperation) o1).getFrom()+" num:"+((MoveOperation) o1).getNum());
+				System.out.println(mvs);
+			}
+			break;
+			
+		case "umv":
+			for(;index<mvlist.size();){
+				Operation o=mvlist.get(index++);
+				if(o instanceof NextOperation){
+					core.nextCard();
+					System.out.println("next:success");
+				}else if(o instanceof MoveOperation){
+					MoveState mvs=core.moveCards(((MoveOperation) o).getTo(), ((MoveOperation) o).getFrom(), ((MoveOperation) o).getNum());
+					System.out.println("move from:"+((MoveOperation) o).getTo()+" to:"+((MoveOperation) o).getFrom()+" num:"+((MoveOperation) o).getNum());
+					System.out.println(mvs);
+					if(mvs!=MoveState.SUCCESS)
+						break;
+				}
+			}
 			break;
 			
 		case "stop":

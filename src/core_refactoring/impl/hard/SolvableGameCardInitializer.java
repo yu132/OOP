@@ -69,6 +69,16 @@ public class SolvableGameCardInitializer implements CardInitializer{
 			private Components from;
 			private Components to;
 			private int num;
+			
+			public Components getFrom() {
+				return from;
+			}
+			public Components getTo() {
+				return to;
+			}
+			public int getNum() {
+				return num;
+			}
 			public MoveOperation(Components from, Components to, int num) {
 				super();
 				this.from = from;
@@ -169,6 +179,8 @@ public class SolvableGameCardInitializer implements CardInitializer{
 				return false;
 			if(CardHeap[from].size()-coverNumber[from]<num)
 				return false;
+			if(CardHeap[from].size()-coverNumber[from]==1)
+				return false;
 			
 			if(CardHeap[to].size()!=coverNumber[to]){
 				if(!CardHeap[to].isEmpty()&&CardHeap[to].get(CardHeap[to].size()-1)
@@ -208,11 +220,10 @@ public class SolvableGameCardInitializer implements CardInitializer{
 		}
 		
 		private static boolean fromHeapToDealer(ArrayList<Card> CardHeap[],int[] coverNumber,Card[][] tempDealer,int from,int to,int[] togiveNum,int lastGroup,ArrayList<Operation> mvlist){
-			if(CardHeap[from].size()==coverNumber[from]){
+			if(CardHeap[from].size()-coverNumber[from]<=1){
 				return false;
 			}
-			if(togiveNum[to]==0)
-				return false;
+			
 			Card c=CardHeap[from].remove(CardHeap[from].size()-1);
 			if(to!=lastGroup)
 				tempDealer[to][3-(togiveNum[to]--)]=c;
@@ -657,8 +668,10 @@ public class SolvableGameCardInitializer implements CardInitializer{
 								for(int x=1;x<=6;x++){
 									int h1=ruH1.getNum();
 									ruH2.reSet();
+									
 									if(CardHeap[h1].size()-coverNumber[h1]==0)
 										continue;
+									
 									for(int y=1;y<=6;y++){
 										int h2=ruH2.getNum();
 										if(h1==h2)
@@ -755,7 +768,7 @@ public class SolvableGameCardInitializer implements CardInitializer{
 	@Override
 	public Card getCard(Components c) {
 		
-		System.out.println(scg.mvlist);
+		//System.out.println(scg.mvlist);
 		
 		switch(c){
 		case DEALER:

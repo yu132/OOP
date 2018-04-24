@@ -180,7 +180,7 @@ public class CardManagementImplSeparatedAnalyzer implements CardManagement{
 		if(op.o==Operation.next){
 			dealer.undo();
 		}else{
-			System.out.println("undo:"+op.from+" "+op.to);
+		//	System.out.println("undo:"+op.from+" "+op.to);
 			map.get(op.from).undo();
 			map.get(op.to).undo();
 			pointCounter.undo();
