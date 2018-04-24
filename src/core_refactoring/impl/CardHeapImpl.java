@@ -212,6 +212,7 @@ public class CardHeapImpl implements CardHeap{
 	public MoveState getCards(ArrayList<Card> cards) {
 		if(cardStack.isEmpty()){
 			if(cards.get(0).getCardNumber()==CardNumber.KING){
+				snapshot.push(getSnapshot());
 				for(int i =0;i<cards.size();i++){
 					cardStack.push(cards.get(i));
 				}
