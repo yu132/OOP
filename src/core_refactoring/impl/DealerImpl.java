@@ -84,6 +84,7 @@ public class DealerImpl implements Dealer{
 	@Override
 	public ArrayList<String> getTopCard() {
 		ArrayList<String> temp=new ArrayList<>();
+		System.out.println(topCardNumber);
 		for(int i=0;i<topCardNumber;i++){
 			temp.add(cardQueue.get(cardIndex+i).toString());
 		}

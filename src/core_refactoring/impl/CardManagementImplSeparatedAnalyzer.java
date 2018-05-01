@@ -83,7 +83,9 @@ public class CardManagementImplSeparatedAnalyzer implements CardManagement{
 		map.put(Components.CARD_HEAP_5, this.cardHeap_5);
 		map.put(Components.CARD_HEAP_6, this.cardHeap_6);
 		map.put(Components.CARD_HEAP_7, this.cardHeap_7);
-		
+	}
+	
+	public void init(){
 		if(needAnalyze){
 			needAnalyze=false;
 			tipsGetter.analyzerGame(this);
@@ -99,7 +101,10 @@ public class CardManagementImplSeparatedAnalyzer implements CardManagement{
 		if(from==to)
 			return MoveState.ILLEGAL_MOVE;
 		
+		String templm=lastMove;
+		lastMove=from+" "+to+" "+1;
 		MoveState ms=map.get(from).sentSingleCard(map.get(to));
+		lastMove=templm;
 		
 		if(ms==MoveState.SUCCESS){
 			
@@ -128,7 +133,10 @@ public class CardManagementImplSeparatedAnalyzer implements CardManagement{
 			return moveSingleCard(from,to);
 		}
 		
+		String templm=lastMove;
+		lastMove=from+" "+to+" "+number;
 		MoveState ms=map.get(from).sentCards(map.get(to),number);
+		lastMove=templm;
 		
 		if(ms==MoveState.SUCCESS){
 			

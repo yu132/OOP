@@ -15,7 +15,8 @@ public class CardChecker {
 	public boolean checkCard(Card card){
 		if(card==null)
 			return false;
-		int index=card.getCardType().ordinal()*12+card.getCardNumber().ordinal();
+		int index=card.getCardType().ordinal()*13+card.getCardNumber().ordinal();
+		System.out.println(index);
 		if(used[index]){
 			return false;
 		}else{
@@ -29,7 +30,7 @@ public class CardChecker {
 			int n=r.getNum();
 			if(!used[n]){
 				used[n]=true;
-				return CardImpl.valueOf(CardNumber.values()[n%12], CardType.values()[n/12]);
+				return CardImpl.valueOf(CardNumber.values()[n%13], CardType.values()[n/13]);
 			}
 		}
 	}
@@ -39,11 +40,12 @@ public class CardChecker {
 	}
 	
 	public static void main(String[] args) {
-		Card card=CardImpl.valueOf(CardNumber.ACE, CardType.CLUBS);
+	/*	Card card=CardImpl.valueOf(CardNumber.ACE, CardType.CLUBS);
 		Card card2=CardImpl.valueOf(CardNumber.KING, CardType.HEARTS);
+		
+		System.out.println(c.checkCard(card));
+		System.out.println(c.checkCard(card));*/
 		CardChecker c=new CardChecker();
-		System.out.println(c.checkCard(card));
-		System.out.println(c.checkCard(card));
-		System.out.println(c.checkCard(card2));
+		System.out.println(c.getRandomUnusedCard());
 	}
 }

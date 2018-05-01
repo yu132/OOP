@@ -1,13 +1,13 @@
 package cli_UI;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 import core_refactoring.CardGame;
 import core_refactoring.Components;
+import core_refactoring.Difficulty;
 import core_refactoring.MoveState;
 import core_refactoring.impl.CardGameFactoryImpl;
 import core_refactoring.impl.hard.SolvableGameCardInitializer.SolvableCardGame.MoveOperation;
@@ -82,13 +82,17 @@ public class Cil_UI2 {
 			}
 			
 			if(core==null){
-				core=new CardGameFactoryImpl().getCardGame();
+				core=new CardGameFactoryImpl().getCardGame(Difficulty.EASY);
 				System.out.println("Success");
 			}else
 				System.out.println("Game has started");
 			
 			for(int i=0;i<12;i++){
 				System.out.println(Components.values()[i]+":"+core.getTopCard(Components.values()[i]));
+			}
+			System.out.println();
+			for(int i=0;i<12;i++){
+				System.out.println(Components.values()[i]+":"+core.getAllCard(Components.values()[i]));
 			}
 			break;
 			
@@ -102,22 +106,34 @@ public class Cil_UI2 {
 			for(int i=0;i<12;i++){
 				System.out.println(Components.values()[i]+":"+core.getTopCard(Components.values()[i]));
 			}
+			System.out.println();
+			for(int i=0;i<12;i++){
+				System.out.println(Components.values()[i]+":"+core.getAllCard(Components.values()[i]));
+			}
 			break;
 			
 		case "ut":
 		case "tip":
-			System.out.println(core.getTips());
-			String[] t=core.getTips().split(" ");
-			if(t.length==4)
-				for(int i=0;i<Integer.parseInt(t[3]);i++)
-					core.nextCard();
-			System.out.println(core.moveCards(Components.valueOf(t[0]), Components.valueOf(t[1]), Integer.valueOf(t[2])));
+			for(int ix=0;ix<10;ix++)
+				try{
+					System.out.println(core.getTips());
+					String[] t=core.getTips().split(" ");
+					if(t.length==4)
+						for(int i=0;i<Integer.parseInt(t[3]);i++)
+							core.nextCard();
+					System.out.println(core.moveCards(Components.valueOf(t[0]), Components.valueOf(t[1]), Integer.valueOf(t[2])));
+				}catch(java.util.NoSuchElementException e){
+					System.out.println("No tips available");
+				}
 			break;
 			
 		case "ti":
 		case "usetips":
-			System.out.println(core.getTips());
-			
+			try{
+				System.out.println(core.getTips());
+			}catch(java.util.NoSuchElementException e){
+				System.out.println("No tips available");
+			}
 			break;
 			
 			
@@ -144,6 +160,10 @@ public class Cil_UI2 {
 			for(int i=0;i<12;i++){
 				System.out.println(Components.values()[i]+":"+core.getTopCard(Components.values()[i]));
 			}
+			System.out.println();
+			for(int i=0;i<12;i++){
+				System.out.println(Components.values()[i]+":"+core.getAllCard(Components.values()[i]));
+			}
 			break;
 			
 		case "n":
@@ -154,6 +174,10 @@ public class Cil_UI2 {
 			
 			for(int i=0;i<12;i++){
 				System.out.println(Components.values()[i]+":"+core.getTopCard(Components.values()[i]));
+			}
+			System.out.println();
+			for(int i=0;i<12;i++){
+				System.out.println(Components.values()[i]+":"+core.getAllCard(Components.values()[i]));
 			}
 			break;
 		

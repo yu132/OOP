@@ -3,6 +3,7 @@ package core_refactoring.impl;
 import java.util.ArrayList;
 
 import core_refactoring.*;
+import core_refactoring.impl.easy.SimpleSingleStepCardGameAnalyzerImpl;
 import core_refactoring.impl.easy.SingleStepNextCardAnalyzerInitializer;
 import core_refactoring.impl.hard.SolvableGameCardInitializer;
 import core_refactoring.impl.master.SimpleCardInitializerImpl;
@@ -32,7 +33,7 @@ public class CardGameFactoryImpl implements CardGameFactory{
 		PointCounter pointCounter=new PointCounterImpl();
 		
 		if(d==Difficulty.EASY){
-			CardInitializer c=new SingleStepNextCardAnalyzerInitializer();
+			SingleStepNextCardAnalyzerInitializer c=new SingleStepNextCardAnalyzerInitializer();
 			
 			Dealer dealer = new DealerImpl(mode, c);
 			
@@ -49,9 +50,13 @@ public class CardGameFactoryImpl implements CardGameFactory{
 			CardHeap cardHeap_6=new CardHeapImpl(6,c,Components.CARD_HEAP_6);
 			CardHeap cardHeap_7=new CardHeapImpl(7,c,Components.CARD_HEAP_7);
 			
-			SeparatedCardGameAnalyzer cardGameAnalyzer=new SingleStepCardGameAnalyzerImpl(false);
+			SimpleSingleStepCardGameAnalyzerImpl cardGameAnalyzer=new SimpleSingleStepCardGameAnalyzerImpl(false);//xiuxiazheli
 	
 			CardManagementImplSeparatedAnalyzer cardManagement= new CardManagementImplSeparatedAnalyzer(dealer, box_1, box_2, box_3, box_4, cardHeap_1, cardHeap_2, cardHeap_3, cardHeap_4, cardHeap_5, cardHeap_6, cardHeap_7, pointCounter, cardGameAnalyzer);
+			
+			c.init(cardManagement);
+			
+			cardManagement.init();
 			
 			return new CardGameImpl(cardManagement,cardGameAnalyzer,pointCounter,timer);
 		}else if(d==Difficulty.HARD){
@@ -72,40 +77,11 @@ public class CardGameFactoryImpl implements CardGameFactory{
 			CardHeap cardHeap_6=new CardHeapImpl(6,c,Components.CARD_HEAP_6);
 			CardHeap cardHeap_7=new CardHeapImpl(7,c,Components.CARD_HEAP_7);
 			
-			SeparatedCardGameAnalyzer cardGameAnalyzer=new SeparatedCardGameAnalyzer() {
-				
-				@Override
-				public boolean isGameOver() {
-					// TODO Auto-generated method stub
-					return false;
-				}
-				
-				@Override
-				public boolean isGameFinish() {
-					// TODO Auto-generated method stub
-					return false;
-				}
-				
-				@Override
-				public ArrayList<String> getTips() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-				
-				@Override
-				public String getBestTips() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-				
-				@Override
-				public void analyzerGame(CardManagement cardManagement) {
-					// TODO Auto-generated method stub
-					
-				}
-			};//new//new SingleStepCardGameAnalyzerImpl(false);
-	
+			SeparatedCardGameAnalyzer cardGameAnalyzer=new SingleStepCardGameAnalyzerImpl(false);
+			
 			CardManagementImplSeparatedAnalyzer cardManagement= new CardManagementImplSeparatedAnalyzer(dealer, box_1, box_2, box_3, box_4, cardHeap_1, cardHeap_2, cardHeap_3, cardHeap_4, cardHeap_5, cardHeap_6, cardHeap_7, pointCounter, cardGameAnalyzer);
+	
+			cardManagement.init();
 			
 			return new CardGameImpl(cardManagement,cardGameAnalyzer,pointCounter,timer);
 		}else{//MASTER
@@ -129,6 +105,8 @@ public class CardGameFactoryImpl implements CardGameFactory{
 			SeparatedCardGameAnalyzer cardGameAnalyzer=new SingleStepCardGameAnalyzerImpl(true);
 	
 			CardManagementImplSeparatedAnalyzer cardManagement= new CardManagementImplSeparatedAnalyzer(dealer, box_1, box_2, box_3, box_4, cardHeap_1, cardHeap_2, cardHeap_3, cardHeap_4, cardHeap_5, cardHeap_6, cardHeap_7, pointCounter, cardGameAnalyzer);
+			
+			cardManagement.init();
 			
 			return new CardGameImpl(cardManagement,cardGameAnalyzer,pointCounter,timer);
 		}
