@@ -46,8 +46,6 @@ public class SingleStepNextCardAnalyzerInitializer implements CardInitializer{
 		cardGiven++;
 		
 		if(cardGiven-1==0){
-			RandomUniqueNumber r=new RandomUniqueNumber(0, 51);
-			
 			Random rn=new Random();
 			
 			int n;

@@ -142,6 +142,10 @@ public class DealerImpl implements Dealer{
 				cardQueue.add(CardImpl.valueOf(temp3[i]));
 		}
 		
+		System.out.println(cardQueue);
+		System.out.println(cardQueueCache);
+		System.out.println();
+		
 		return true;
 	}
 	
@@ -182,7 +186,6 @@ public class DealerImpl implements Dealer{
 				for(int i=0;i<nextNumber;i++){
 					Card temp=cardQueueCache.get(24-unknowCard+i);
 					cardQueue.add(temp);
-					cardQueueCache.add(temp);
 				}
 			}
 			unknowCard-=nextNumber;
@@ -193,6 +196,10 @@ public class DealerImpl implements Dealer{
 		if(cardIndex+topCardNumber>=cardQueue.size()){
 			topCardNumber=cardQueue.size()-cardIndex;
 		}
+		
+		System.out.println(cardQueue);
+		System.out.println(cardQueueCache);
+		System.out.println();
 	}
 
 }

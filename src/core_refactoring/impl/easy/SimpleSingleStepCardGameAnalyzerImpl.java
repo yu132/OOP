@@ -119,6 +119,25 @@ public class SimpleSingleStepCardGameAnalyzerImpl implements SeparatedCardGameAn
 			}
 		}
 		
+		for(int j=1;j<=7;j++){
+			if(cardGame.moveCards(Components.DEALER, map.get(j), 1)==MoveState.SUCCESS){
+				tips.add(Components.DEALER+" "+map.get(j)+" "+1+" "+0);
+				
+			//	System.out.println("Analyzer:"+Components.DEALER+" "+map.get(j)+" "+1);
+				
+				cardGame.undo();
+			}
+		}
+		for(int j=1;j<=4;j++){
+			if(cardGame.moveCards(Components.DEALER, boxmap.get(j), 1)==MoveState.SUCCESS){
+				tips.add(Components.DEALER+" "+boxmap.get(j)+" "+1+" "+0);
+				
+			//	System.out.println("Analyzer:"+Components.DEALER+" "+boxmap.get(j)+" "+1);
+				
+				cardGame.undo();
+			}
+		}
+		
 	//	System.out.println("#3");
 		
 		

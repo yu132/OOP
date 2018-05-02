@@ -8,6 +8,7 @@ import java.util.Scanner;
 import core_refactoring.CardGame;
 import core_refactoring.Components;
 import core_refactoring.Difficulty;
+import core_refactoring.Mode;
 import core_refactoring.MoveState;
 import core_refactoring.impl.CardGameFactoryImpl;
 import core_refactoring.impl.hard.SolvableGameCardInitializer.SolvableCardGame.MoveOperation;
@@ -82,7 +83,7 @@ public class Cil_UI2 {
 			}
 			
 			if(core==null){
-				core=new CardGameFactoryImpl().getCardGame(Difficulty.EASY);
+				core=new CardGameFactoryImpl().getCardGame(Difficulty.HARD,Mode.ONE_CARD_MODE);
 				System.out.println("Success");
 			}else
 				System.out.println("Game has started");

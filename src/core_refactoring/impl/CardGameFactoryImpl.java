@@ -1,12 +1,22 @@
 package core_refactoring.impl;
 
-import java.util.ArrayList;
-
-import core_refactoring.*;
+import core_refactoring.Box;
+import core_refactoring.CardGame;
+import core_refactoring.CardGameFactory;
+import core_refactoring.CardHeap;
+import core_refactoring.CardInitializer;
+import core_refactoring.Components;
+import core_refactoring.Dealer;
+import core_refactoring.Difficulty;
+import core_refactoring.Mode;
+import core_refactoring.PointCounter;
+import core_refactoring.SeparatedCardGameAnalyzer;
+import core_refactoring.Timer;
 import core_refactoring.impl.easy.SimpleSingleStepCardGameAnalyzerImpl;
 import core_refactoring.impl.easy.SingleStepNextCardAnalyzerInitializer;
 import core_refactoring.impl.hard.SolvableGameCardInitializer;
 import core_refactoring.impl.master.SimpleCardInitializerImpl;
+import core_refactoring.util.TestCardGameImpl;
 
 public class CardGameFactoryImpl implements CardGameFactory{
 
@@ -58,7 +68,7 @@ public class CardGameFactoryImpl implements CardGameFactory{
 			
 			cardManagement.init();
 			
-			return new CardGameImpl(cardManagement,cardGameAnalyzer,pointCounter,timer);
+			return new TestCardGameImpl(cardManagement,cardGameAnalyzer,pointCounter,timer);
 		}else if(d==Difficulty.HARD){
 			CardInitializer c=new SolvableGameCardInitializer();
 			
@@ -83,7 +93,7 @@ public class CardGameFactoryImpl implements CardGameFactory{
 	
 			cardManagement.init();
 			
-			return new CardGameImpl(cardManagement,cardGameAnalyzer,pointCounter,timer);
+			return new TestCardGameImpl(cardManagement,cardGameAnalyzer,pointCounter,timer);
 		}else{//MASTER
 			CardInitializer c=new SimpleCardInitializerImpl();
 			
@@ -108,7 +118,7 @@ public class CardGameFactoryImpl implements CardGameFactory{
 			
 			cardManagement.init();
 			
-			return new CardGameImpl(cardManagement,cardGameAnalyzer,pointCounter,timer);
+			return new TestCardGameImpl(cardManagement,cardGameAnalyzer,pointCounter,timer);
 		}
 	}
 
